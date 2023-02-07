@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.edu.hutb</groupId>
+        <artifactId>hutb-news-dev</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!--
+        hutb-news-dev-model
+        模型工程，所有的子工程以及微服务中所涉及到的模型实体类都在此管理
+        可以包含一些 *pojo, *Bean, *Entity, vo, bo, dto 等。
+    -->
+    <artifactId>hutb-news-dev-model</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.edu.hutb</groupId>
+            <artifactId>hutb-new-dev-common</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
