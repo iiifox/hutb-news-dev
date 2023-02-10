@@ -1,6 +1,6 @@
 package cn.edu.hutb.user.controller;
 
-import cn.edu.hutb.JSONResult;
+import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.api.controller.HelloControllerApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;

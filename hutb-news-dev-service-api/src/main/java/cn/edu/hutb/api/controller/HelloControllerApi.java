@@ -1,6 +1,6 @@
 package cn.edu.hutb.api.controller;
 
-import cn.edu.hutb.JSONResult;
+import cn.edu.hutb.result.JSONResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
 public interface HelloControllerApi {

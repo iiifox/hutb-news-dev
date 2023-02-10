@@ -1,4 +1,4 @@
-package cn.edu.hutb;
+package cn.edu.hutb.result;
 
 import lombok.*;
 
@@ -97,7 +97,7 @@ public class JSONResult {
         return new JSONResult(ResponseStatusEnum.TICKET_INVALID);
     }
 
-    public static JSONResult exception(ResponseStatusEnum responseStatus) {
+    static JSONResult exception(ResponseStatusEnum responseStatus) {
         return new JSONResult(responseStatus);
     }
 

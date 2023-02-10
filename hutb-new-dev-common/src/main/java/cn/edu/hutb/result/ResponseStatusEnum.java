@@ -1,4 +1,4 @@
-package cn.edu.hutb;
+package cn.edu.hutb.result;
 
 /**
  * 响应结果枚举，用于提供给JSONResult返回给前端的
