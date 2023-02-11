@@ -97,8 +97,18 @@ public class JSONResult {
         return new JSONResult(ResponseStatusEnum.TICKET_INVALID);
     }
 
+    /**
+     * 异常，需要抛出异常被捕获来记录日志
+     */
     static JSONResult exception(ResponseStatusEnum responseStatus) {
         return new JSONResult(responseStatus);
+    }
+
+    /**
+     * 异常，直接返回，不需要捕获异常来记录日志
+     */
+    public static JSONResult errorCustom(ResponseStatusEnum responseStatusEnum) {
+        return exception(responseStatusEnum);
     }
 
 }

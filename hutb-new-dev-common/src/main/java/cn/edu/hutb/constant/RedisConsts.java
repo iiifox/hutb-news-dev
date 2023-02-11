@@ -7,6 +7,7 @@ package cn.edu.hutb.constant;
  */
 public class RedisConsts {
 
-    public static final String MOBILE_SMSCODE_IP = "mobile:sms:code:%s";
-    public static final String MOBILE_SMSCODE_CODE = "mobile:sms:code:%s";
+    public static final String MOBILE_SMSCODE = "mobile:smscode:%s";
+
+    public static final String USER_TOKEN = "user:token:%s";
 }

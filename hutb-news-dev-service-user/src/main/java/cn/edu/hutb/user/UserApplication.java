@@ -12,7 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @SpringBootApplication
 @MapperScan("cn.edu.hutb.user.mapper")
-@ComponentScan("cn.edu.hutb")
+@ComponentScan({"cn.edu.hutb", "org.n3r.idworker"})
 public class UserApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class, args);

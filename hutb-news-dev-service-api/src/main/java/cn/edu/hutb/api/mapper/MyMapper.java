@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package cn.edu.hutb.mapper;
+package cn.edu.hutb.api.mapper;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;

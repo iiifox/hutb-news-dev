@@ -1,4 +1,4 @@
-package cn.edu.hutb.config;
+package cn.edu.hutb.api.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

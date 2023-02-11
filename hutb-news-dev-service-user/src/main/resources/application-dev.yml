@@ -12,3 +12,9 @@ spring:
     host: 192.168.1.100
     port: 6379
     password: 123456
+
+cn:
+  edu:
+    hutb:
+      website:
+        domain: hutbnews.com
