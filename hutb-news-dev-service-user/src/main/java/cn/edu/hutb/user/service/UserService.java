@@ -12,10 +12,15 @@ public interface UserService {
     /**
      * 判断用户是否存在，如果存在则返回用户信息
      */
-    AppUser queryMobileIsExist(String mobile);
+    AppUser getUserByMobile(String mobile);
 
     /**
      * 创建用户，新增用户记录到数据库
      */
-    AppUser createUser(String mobile);
+    AppUser saveUser(String mobile);
+
+    /**
+     * 根据用户id查询用户信息
+     */
+    AppUser getUser(String id);
 }

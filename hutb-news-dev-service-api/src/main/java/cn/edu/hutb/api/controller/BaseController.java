@@ -43,7 +43,7 @@ public class BaseController {
      */
     private void setCookie(HttpServletResponse response, String cookieName, String cookieValue, int maxAge) {
         try {
-            cookieValue  = URLEncoder.encode(cookieName, StandardCharsets.UTF_8.name());
+            cookieValue  = URLEncoder.encode(cookieValue, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

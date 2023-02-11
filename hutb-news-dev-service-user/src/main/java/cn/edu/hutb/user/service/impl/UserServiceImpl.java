@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private Sid sid;
 
     @Override
-    public AppUser queryMobileIsExist(String mobile) {
+    public AppUser getUserByMobile(String mobile) {
         Example example = new Example(AppUser.class);
         example.createCriteria().andEqualTo("mobile", mobile);
         return appUserMapper.selectOneByExample(example);
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public AppUser createUser(String mobile) {
+    public AppUser saveUser(String mobile) {
         AppUser user = new AppUser();
         /*
         互联网项目都要考虑可扩展性，如果未来的业务激增，那么就需要分库分表
@@ -65,5 +65,10 @@ public class UserServiceImpl implements UserService {
 
         appUserMapper.insert(user);
         return user;
+    }
+
+    @Override
+    public AppUser getUser(String id) {
+        return appUserMapper.selectByPrimaryKey(id);
     }
 }

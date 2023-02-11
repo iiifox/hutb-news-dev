@@ -82,10 +82,10 @@ public class PassportController extends BaseController
         }
 
         // 查询数据库，判断该用户是否已经注册
-        AppUser user = userService.queryMobileIsExist(mobile);
+        AppUser user = userService.getUserByMobile(mobile);
         // 用户没有注册过，需要注册信息入库
         if (user == null) {
-            user = userService.createUser(mobile);
+            user = userService.saveUser(mobile);
         } else if (UserStatus.FROZEN.type.equals(user.getActiveStatus())) {
             // 用户已被冻结，禁止登录
             return JSONResult.errorCustom(ResponseStatusEnum.USER_FROZEN);
