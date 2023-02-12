@@ -1,6 +1,7 @@
 package cn.edu.hutb.user.service;
 
 import cn.edu.hutb.pojo.AppUser;
+import cn.edu.hutb.pojo.bo.UpdateUserInfoBO;
 
 /**
  * @author 田章
@@ -23,4 +24,9 @@ public interface UserService {
      * 根据用户id查询用户信息
      */
     AppUser getUser(String id);
+
+    /**
+     * 更新用户信息
+     */
+    void updateUserInfo(UpdateUserInfoBO bo);
 }

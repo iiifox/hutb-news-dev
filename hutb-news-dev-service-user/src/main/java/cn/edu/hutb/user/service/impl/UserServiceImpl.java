@@ -3,10 +3,14 @@ package cn.edu.hutb.user.service.impl;
 import cn.edu.hutb.enums.Sex;
 import cn.edu.hutb.enums.UserStatus;
 import cn.edu.hutb.pojo.AppUser;
+import cn.edu.hutb.pojo.bo.UpdateUserInfoBO;
+import cn.edu.hutb.result.CustomException;
+import cn.edu.hutb.result.ResponseStatusEnum;
 import cn.edu.hutb.user.mapper.AppUserMapper;
 import cn.edu.hutb.user.service.UserService;
 import cn.edu.hutb.util.DesensitizationUtils;
 import org.n3r.idworker.Sid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +74,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppUser getUser(String id) {
         return appUserMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void updateUserInfo(UpdateUserInfoBO bo) {
+        AppUser user = new AppUser();
+        BeanUtils.copyProperties(bo, user);
+
+        user.setUpdatedTime(new Date());
+        user.setActiveStatus(UserStatus.ACTIVE.type);
+
+        if (appUserMapper.updateByPrimaryKeySelective(user) != 1) {
+            throw new CustomException(ResponseStatusEnum.USER_UPDATE_ERROR);
+        }
     }
 }
