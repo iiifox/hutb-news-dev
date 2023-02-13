@@ -57,7 +57,8 @@ public class PassportController extends BaseController
         String code = String.format("%06d", RANDOM.nextInt(1000000));
         // 发送验证码
         try {
-            aliyunComponent.sendSms(mobile, code);
+            // TODO 阿里云发生短信，暂时注释（发短信需要收费）
+            // aliyunComponent.sendSms(mobile, code);
         } catch (Exception e) {
             throw new CustomException(ResponseStatusEnum.MOBILE_ERROR);
         }

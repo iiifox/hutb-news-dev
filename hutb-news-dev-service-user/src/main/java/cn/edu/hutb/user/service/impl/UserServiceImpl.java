@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
          */
         user.setId(sid.nextShort());
         user.setMobile(mobile);
-        user.setNickname("用户：" + DesensitizationUtils.mobilePhone(mobile));
+        user.setNickname(DesensitizationUtils.mobilePhone(mobile));
         user.setFace("https://hutb-news-1314926265.cos.ap-shanghai.myqcloud.com/image/uid/22112064CXX989D4/221122B473F1NW28.png");
 
         try {

@@ -4,6 +4,7 @@ import cn.edu.hutb.api.controller.BaseController;
 import cn.edu.hutb.api.controller.user.UserControllerApi;
 import cn.edu.hutb.pojo.AppUser;
 import cn.edu.hutb.pojo.bo.UpdateUserInfoBO;
+import cn.edu.hutb.pojo.vo.AppUserVO;
 import cn.edu.hutb.pojo.vo.UserAccountInfoVO;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.result.ResponseStatusEnum;
@@ -52,5 +53,21 @@ public class UserController extends BaseController
         // 执行更新操作
         userService.updateUserInfo(bo);
         return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult getUserBasicInfo(String userId) {
+        // 判断参数不能为空
+        if (StringUtils.isBlank(userId)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.UN_LOGIN);
+        }
+
+        // 根据用户userId查询用户信息
+        AppUser user = userService.getUser(userId);
+
+        // 返回用户基本信息
+        AppUserVO infoVO = new AppUserVO();
+        BeanUtils.copyProperties(user, infoVO);
+        return JSONResult.ok(infoVO);
     }
 }

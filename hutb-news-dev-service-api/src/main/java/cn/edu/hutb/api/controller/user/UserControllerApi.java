@@ -29,4 +29,10 @@ public interface UserControllerApi {
      */
     @PostMapping("/updateUserInfo")
     JSONResult updateUserInfo(@RequestBody @Valid UpdateUserInfoBO bo, BindingResult result);
+
+    /**
+     * 获取用户基本信息
+     */
+    @PostMapping("/getUserInfo")
+    JSONResult getUserBasicInfo(@RequestParam String userId);
 }
