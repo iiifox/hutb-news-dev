@@ -1,5 +1,6 @@
 package cn.edu.hutb.user.service.impl;
 
+import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.enums.Sex;
 import cn.edu.hutb.enums.UserStatus;
 import cn.edu.hutb.pojo.AppUser;
@@ -12,6 +13,7 @@ import cn.edu.hutb.util.DesensitizationUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private Sid sid;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public AppUser getUserByMobile(String mobile) {
@@ -78,14 +83,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserInfo(UpdateUserInfoBO bo) {
+        String userId = bo.getId();
+        // 保证双写一致，先删除Redis中的数据，后更新数据库
+        redisTemplate.delete(String.format(RedisConsts.USER_INFO, userId));
+
         AppUser user = new AppUser();
         BeanUtils.copyProperties(bo, user);
-
         user.setUpdatedTime(new Date());
         user.setActiveStatus(UserStatus.ACTIVE.type);
-
         if (appUserMapper.updateByPrimaryKeySelective(user) != 1) {
             throw new CustomException(ResponseStatusEnum.USER_UPDATE_ERROR);
         }
+
+        // 缓存延时双删
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        redisTemplate.delete(String.format(RedisConsts.USER_INFO, userId));
     }
 }

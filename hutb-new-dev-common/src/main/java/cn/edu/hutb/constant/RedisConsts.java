@@ -10,4 +10,6 @@ public class RedisConsts {
     public static final String MOBILE_SMSCODE = "mobile:smscode:%s";
 
     public static final String USER_TOKEN = "user:token:%s";
+
+    public static final String USER_INFO = "user:info:%s";
 }
