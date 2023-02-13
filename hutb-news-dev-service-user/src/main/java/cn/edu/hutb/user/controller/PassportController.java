@@ -12,6 +12,7 @@ import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.result.ResponseStatusEnum;
 import cn.edu.hutb.user.service.UserService;
 import cn.edu.hutb.util.IpUtils;
+import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -92,11 +94,16 @@ public class PassportController extends BaseController
             return JSONResult.errorCustom(ResponseStatusEnum.USER_FROZEN);
         }
 
+        // 保存用户信息到Redis
+        String userId = user.getId();
+        redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO, userId),
+                Objects.requireNonNull(JsonUtils.objectToJson(user)), 30, TimeUnit.DAYS);
+
         // 保存用户分布式会话的相关操作
         String uToken = UUID.randomUUID().toString().replaceAll("-", "");
         // 保存token到Redis
         redisTemplate.opsForValue()
-                .set(String.format(RedisConsts.USER_TOKEN, user.getId()), uToken, 30, TimeUnit.DAYS);
+                .set(String.format(RedisConsts.USER_TOKEN, userId), uToken, 30, TimeUnit.DAYS);
         // 保存用户id和token到cookie中
         setCookieSevenDays(response, "utoken", uToken);
         setCookieSevenDays(response, "uid", user.getId());
@@ -104,5 +111,13 @@ public class PassportController extends BaseController
         // 用户登录或注册成功以后，删除Redis中的短信验证码
         redisTemplate.delete(String.format(RedisConsts.MOBILE_SMSCODE, mobile));
         return JSONResult.ok(user.getActiveStatus());
+    }
+
+    @Override
+    public JSONResult logout(String userId, HttpServletResponse response) {
+        redisTemplate.delete(String.format(RedisConsts.USER_TOKEN, userId));
+        deleteCookie(response, "utoken");
+        deleteCookie(response, "uid");
+        return JSONResult.ok();
     }
 }

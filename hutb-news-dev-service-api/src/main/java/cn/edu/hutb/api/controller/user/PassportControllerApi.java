@@ -28,4 +28,10 @@ public interface PassportControllerApi {
      */
     @PostMapping("/doLogin")
     JSONResult registerLogin(@RequestBody @Valid RegisterLoginBO bo, BindingResult result, HttpServletResponse response);
+
+    /**
+     * 用户退出登录
+     */
+    @PostMapping("/logout")
+    JSONResult logout(@RequestParam String userId, HttpServletResponse response);
 }

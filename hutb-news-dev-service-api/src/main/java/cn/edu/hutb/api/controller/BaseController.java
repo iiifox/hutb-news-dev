@@ -38,6 +38,10 @@ public class BaseController {
         setCookie(response, cookieName, cookieValue, 7 * 24 * 60 * 60);
     }
 
+    protected void deleteCookie(HttpServletResponse response, String cookieName) {
+        setCookie(response, cookieName, "", 0);
+    }
+
     /**
      * 保存cookie到响应中
      */
