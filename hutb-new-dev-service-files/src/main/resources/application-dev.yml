@@ -1,0 +1,25 @@
+server:
+  port: 8004
+
+spring:
+  redis:
+    database: 0
+    host: 192.168.1.100
+    port: 6379
+    password: 123456
+
+############################################################
+#
+# fastdfs 的配置信息
+#
+############################################################
+fdfs:
+  connect-timeout: 30
+  so-timeout: 30
+  tracker-list: 192.168.1.200:22122
+
+cn:
+  edu:
+    hutb:
+      # FastDFS Storage
+      fdfs-host: http://192.168.1.200:8888/

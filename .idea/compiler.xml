@@ -10,6 +10,7 @@
         <module name="mybatis-generator-database" />
         <module name="hutb-news-dev-service-api" />
         <module name="hutb-news-dev-model" />
+        <module name="hutb-new-dev-service-files" />
         <module name="hutb-news-dev-service-user" />
         <module name="hutb-new-dev-common" />
       </profile>

@@ -1,4 +1,4 @@
-package cn.edu.hutb.api.interceptor.user;
+package cn.edu.hutb.api.interceptor;
 
 
 import cn.edu.hutb.api.interceptor.BaseInterceptor;

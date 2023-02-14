@@ -1,7 +1,7 @@
 package cn.edu.hutb.api.config;
 
-import cn.edu.hutb.api.interceptor.user.UserActiveInterceptor;
-import cn.edu.hutb.api.interceptor.user.UserTokenInterceptor;
+import cn.edu.hutb.api.interceptor.UserActiveInterceptor;
+import cn.edu.hutb.api.interceptor.UserTokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -29,7 +29,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 用户登录校验拦截器
         registry.addInterceptor(userTokenInterceptor())
-                .addPathPatterns("/user/getAccountInfo", "/user/updateUserInfo");
+                .addPathPatterns("/user/getAccountInfo", "/user/updateUserInfo")
+                .addPathPatterns("/fs/uploadFace");
         // 用户激活状态检查拦截器
         // registry.addInterceptor(userActiveInterceptor())
         //         .addPathPatterns();

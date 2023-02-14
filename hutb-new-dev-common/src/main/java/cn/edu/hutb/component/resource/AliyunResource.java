@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @date 2023/2/10
  */
 @Component
-@PropertySource("classpath:aliyun.properties")
+@PropertySource("classpath:aliyun-${spring.profiles.active}.properties")
 @ConfigurationProperties("aliyun")
 @Data
 public class AliyunResource {

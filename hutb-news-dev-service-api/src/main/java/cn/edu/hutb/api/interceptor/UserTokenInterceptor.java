@@ -1,6 +1,5 @@
-package cn.edu.hutb.api.interceptor.user;
+package cn.edu.hutb.api.interceptor;
 
-import cn.edu.hutb.api.interceptor.BaseInterceptor;
 import cn.edu.hutb.constant.RedisConsts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
