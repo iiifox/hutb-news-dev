@@ -12,19 +12,20 @@ import java.util.List;
 
 public class GeneratorUtils {
 
-    private static void userGenerator() throws Exception {
+    private static void generator(String name) throws Exception {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
         // 指定 逆向工程配置文件
         File configFile = new File("mybatis-generator-database"
                 + File.separator
-                + "generatorConfig-user.xml");
+                + "generatorConfig-" + name + ".xml");
         Configuration config = new ConfigurationParser(warnings).parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
         new MyBatisGenerator(config, callback, warnings).generate(null);
     }
 
     public static void main(String[] args) throws Exception {
-        userGenerator();
+        // generator("user");
+        generator("admin");
     }
 }

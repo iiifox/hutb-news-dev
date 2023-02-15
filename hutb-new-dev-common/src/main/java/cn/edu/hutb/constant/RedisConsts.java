@@ -7,9 +7,21 @@ package cn.edu.hutb.constant;
  */
 public class RedisConsts {
 
+    /**
+     * 保存短信验证码（拼接手机号）<br/>
+     * 限制一分钟内频繁请求发送短信（拼接ip）
+     */
     public static final String MOBILE_SMSCODE = "mobile:smscode:%s";
 
+    /**
+     * 保存用户token（拼接userId）
+     */
     public static final String USER_TOKEN = "user:token:%s";
 
+    /**
+     * 保存用户信息（拼接userId）
+     */
     public static final String USER_INFO = "user:info:%s";
+
+    public static final String ADMIN_TOKEN = "admin:token:%s";
 }

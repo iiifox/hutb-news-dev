@@ -94,6 +94,23 @@ public class PassportController extends BaseController
             return JSONResult.errorCustom(ResponseStatusEnum.USER_FROZEN);
         }
 
+        // 一键注册/登录成功后的一些基本设置
+        registerLoginSetting(user, response);
+        return JSONResult.ok(user.getActiveStatus());
+    }
+
+    @Override
+    public JSONResult logout(String userId, HttpServletResponse response) {
+        redisTemplate.delete(String.format(RedisConsts.USER_TOKEN, userId));
+        deleteCookie(response, "utoken");
+        deleteCookie(response, "uid");
+        return JSONResult.ok();
+    }
+
+    /**
+     * 用户一键注册/登录成功后的一些设置
+     */
+    private void registerLoginSetting(AppUser user, HttpServletResponse response) {
         // 保存用户信息到Redis
         String userId = user.getId();
         redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO, userId),
@@ -106,18 +123,9 @@ public class PassportController extends BaseController
                 .set(String.format(RedisConsts.USER_TOKEN, userId), uToken, 30, TimeUnit.DAYS);
         // 保存用户id和token到cookie中
         setCookieSevenDays(response, "utoken", uToken);
-        setCookieSevenDays(response, "uid", user.getId());
+        setCookieSevenDays(response, "uid", userId);
 
         // 用户登录或注册成功以后，删除Redis中的短信验证码
-        redisTemplate.delete(String.format(RedisConsts.MOBILE_SMSCODE, mobile));
-        return JSONResult.ok(user.getActiveStatus());
-    }
-
-    @Override
-    public JSONResult logout(String userId, HttpServletResponse response) {
-        redisTemplate.delete(String.format(RedisConsts.USER_TOKEN, userId));
-        deleteCookie(response, "utoken");
-        deleteCookie(response, "uid");
-        return JSONResult.ok();
+        redisTemplate.delete(String.format(RedisConsts.MOBILE_SMSCODE, user.getMobile()));
     }
 }

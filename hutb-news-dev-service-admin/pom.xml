@@ -9,16 +9,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>hutb-news-dev-service-api</artifactId>
+    <artifactId>hutb-news-dev-service-admin</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.edu.hutb</groupId>
-            <artifactId>hutb-news-dev-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>hutb-news-dev-service-api</artifactId>
         </dependency>
     </dependencies>
 
