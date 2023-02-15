@@ -6,6 +6,7 @@ import cn.edu.hutb.api.controller.admin.AdminMngControllerApi;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.pojo.AdminUser;
 import cn.edu.hutb.pojo.bo.AdminLoginBO;
+import cn.edu.hutb.pojo.bo.NewAdminBO;
 import cn.edu.hutb.result.CustomException;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.result.ResponseStatusEnum;
@@ -36,9 +37,9 @@ public class AdminMngController extends BaseController
 
     @Override
     public JSONResult login(AdminLoginBO bo, HttpServletResponse response) {
+        // 用户名和密码不能为空
         String username = bo.getUsername();
         String password = bo.getPassword();
-        // 用户名和密码不能为空
         if (StringUtils.isBlank(username)) {
             return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_USERNAME_NULL_ERROR);
         }
@@ -62,6 +63,27 @@ public class AdminMngController extends BaseController
         if (adminUserService.getAdminByUsername(username) != null) {
             throw new CustomException(ResponseStatusEnum.ADMIN_USERNAME_EXIST_ERROR);
         }
+        return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult addAdmin(NewAdminBO bo) {
+        // 用户名不能为空
+        String username = bo.getUsername();
+        if (StringUtils.isBlank(username)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_USERNAME_NULL_ERROR);
+        }
+        // base64为空，表示不是人脸入库，需要密码和确认密码
+        String password = bo.getPassword();
+        String confirmPassword = bo.getConfirmPassword();
+        if (StringUtils.isBlank(bo.getImg64())) {
+            if (StringUtils.isBlank(password) || !password.equals(confirmPassword)) {
+                return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_PASSWORD_ERROR);
+            }
+        }
+        // 校验唯一性后新增管理员信息入库
+        checkAdminUnique(username);
+        adminUserService.addAdmin(bo);
         return JSONResult.ok();
     }
 

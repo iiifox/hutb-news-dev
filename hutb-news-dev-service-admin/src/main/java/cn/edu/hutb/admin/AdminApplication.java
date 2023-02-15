@@ -7,7 +7,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan("cn.edu.hutb.admin.mapper")
-@ComponentScan("cn.edu.hutb")
+@ComponentScan({"cn.edu.hutb", "org.n3r.idworker"})
 public class AdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class, args);

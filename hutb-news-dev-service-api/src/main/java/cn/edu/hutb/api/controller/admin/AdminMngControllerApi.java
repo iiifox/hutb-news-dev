@@ -1,6 +1,7 @@
 package cn.edu.hutb.api.controller.admin;
 
 import cn.edu.hutb.pojo.bo.AdminLoginBO;
+import cn.edu.hutb.pojo.bo.NewAdminBO;
 import cn.edu.hutb.result.JSONResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,4 +29,10 @@ public interface AdminMngControllerApi {
      */
     @PostMapping("/adminIsExist")
     JSONResult checkAdminUnique(@RequestParam String username);
+
+    /**
+     * 添加admin用户
+     */
+    @PostMapping("/addNewAdmin")
+    JSONResult addAdmin(@RequestBody NewAdminBO bo);
 }
