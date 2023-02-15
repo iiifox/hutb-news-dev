@@ -5,6 +5,7 @@ import cn.edu.hutb.result.JSONResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,4 +22,10 @@ public interface AdminMngControllerApi {
      */
     @PostMapping("/adminLogin")
     JSONResult login(@RequestBody AdminLoginBO bo, HttpServletResponse response);
+
+    /**
+     * 校验admin登录名唯一
+     */
+    @PostMapping("/adminIsExist")
+    JSONResult checkAdminUnique(@RequestParam String username);
 }

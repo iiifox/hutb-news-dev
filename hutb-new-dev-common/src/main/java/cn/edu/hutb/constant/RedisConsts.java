@@ -23,5 +23,8 @@ public class RedisConsts {
      */
     public static final String USER_INFO = "user:info:%s";
 
+    /**
+     * 保存admin用户token（拼接adminUserId）
+     */
     public static final String ADMIN_TOKEN = "admin:token:%s";
 }

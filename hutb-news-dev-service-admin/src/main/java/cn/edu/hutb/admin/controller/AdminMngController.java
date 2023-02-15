@@ -6,12 +6,14 @@ import cn.edu.hutb.api.controller.admin.AdminMngControllerApi;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.pojo.AdminUser;
 import cn.edu.hutb.pojo.bo.AdminLoginBO;
+import cn.edu.hutb.result.CustomException;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.result.ResponseStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RestController;
+import wiremock.org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
@@ -37,6 +39,12 @@ public class AdminMngController extends BaseController
         String username = bo.getUsername();
         String password = bo.getPassword();
         // 用户名和密码不能为空
+        if (StringUtils.isBlank(username)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_USERNAME_NULL_ERROR);
+        }
+        if (StringUtils.isBlank(password)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_PASSWORD_NULL_ERROR);
+        }
 
         // 查询用户信息
         AdminUser admin = adminUserService.getAdminByUsername(username);
@@ -46,6 +54,14 @@ public class AdminMngController extends BaseController
 
         // admin用户登录成功后的基本设置
         loginSetting(admin, response);
+        return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult checkAdminUnique(String username) {
+        if (adminUserService.getAdminByUsername(username) != null) {
+            throw new CustomException(ResponseStatusEnum.ADMIN_USERNAME_EXIST_ERROR);
+        }
         return JSONResult.ok();
     }
 

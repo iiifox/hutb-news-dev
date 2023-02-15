@@ -1,5 +1,6 @@
 package cn.edu.hutb.api.config;
 
+import cn.edu.hutb.api.interceptor.AdminTokenInterceptor;
 import cn.edu.hutb.api.interceptor.UserActiveInterceptor;
 import cn.edu.hutb.api.interceptor.UserTokenInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
         return new UserActiveInterceptor();
     }
 
+    @Bean
+    public AdminTokenInterceptor adminTokenInterceptor() {
+        return new AdminTokenInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 用户登录校验拦截器
@@ -34,5 +40,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // 用户激活状态检查拦截器
         // registry.addInterceptor(userActiveInterceptor())
         //         .addPathPatterns();
+        // admin登录校验拦截器
+        registry.addInterceptor(adminTokenInterceptor())
+                .addPathPatterns("/adminMng/adminIsExist");
     }
 }
