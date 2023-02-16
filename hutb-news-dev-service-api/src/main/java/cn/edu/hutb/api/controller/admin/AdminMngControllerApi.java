@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author 田章
- * @description
+ * @description admin用户管理接口
  * @date 2023/2/15
  */
 @RequestMapping("/adminMng")
@@ -35,4 +35,10 @@ public interface AdminMngControllerApi {
      */
     @PostMapping("/addNewAdmin")
     JSONResult addAdmin(@RequestBody NewAdminBO bo);
+
+    /**
+     * 查询admin用户列表
+     */
+    @PostMapping("getAdminList")
+    JSONResult getAdminList(@RequestParam Integer page, @RequestParam Integer pageSize);
 }

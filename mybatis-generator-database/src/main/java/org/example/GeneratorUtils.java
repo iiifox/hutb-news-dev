@@ -25,7 +25,7 @@ public class GeneratorUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        // generator("user");
+        generator("user");
         generator("admin");
     }
 }

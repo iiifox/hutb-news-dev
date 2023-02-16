@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS `hutb-news-dev`;
 CREATE DATABASE `hutb-news-dev` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
+USE `hutb-news-dev`;
+
 -- ----------------------------
 -- Table structure for admin_user
 -- ----------------------------
@@ -11,8 +13,8 @@ CREATE TABLE `admin_user` (
   `password` varchar(64) DEFAULT NULL COMMENT '密码',
   `face_id` varchar(64) DEFAULT NULL COMMENT '人脸入库图片信息，该信息保存到mongoDB的gridFS中',
   `admin_name` varchar(12) DEFAULT NULL COMMENT '管理人员的姓名',
-  `created_time` datetime NOT NULL COMMENT '创建时间 创建时间',
-  `updated_time` datetime NOT NULL COMMENT '更新时间 更新时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间 创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间 更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='运营管理平台的admin级别用户';
@@ -46,8 +48,8 @@ CREATE TABLE `app_user` (
   `district` varchar(32) DEFAULT NULL COMMENT '区县',
   `active_status` int(255) NOT NULL DEFAULT 0 COMMENT '用户状态：0：未激活。 1：已激活：基本信息是否完善，真实姓名，邮箱地址，性别，生日，住址等，如果没有完善，则用户不能在作家中心操作，不能关注。2：已冻结。',
   `total_income` int(255) NOT NULL DEFAULT 0 COMMENT '累计已结算的收入金额，也就是已经打款的金额，每次打款后再此累加',
-  `created_time` datetime NOT NULL COMMENT '创建时间 创建时间',
-  `updated_time` datetime NOT NULL COMMENT '更新时间 更新时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间 创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间 更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `mobile` (`mobile`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='网站用户';

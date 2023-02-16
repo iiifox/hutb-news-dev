@@ -6,6 +6,9 @@ import cn.edu.hutb.pojo.AdminUser;
 import cn.edu.hutb.pojo.bo.NewAdminBO;
 import cn.edu.hutb.result.CustomException;
 import cn.edu.hutb.result.ResponseStatusEnum;
+import cn.edu.hutb.result.page.PageResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -16,6 +19,7 @@ import wiremock.org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 田章
@@ -57,11 +61,30 @@ public class AdminUserServiceImpl implements AdminUserService {
             admin.setFaceId(faceId);
         }
 
-        admin.setCreatedTime(new Date());
-        admin.setUpdatedTime(new Date());
+        admin.setCreateTime(new Date());
+        admin.setUpdateTime(new Date());
 
         if (adminUserMapper.insert(admin) != 1) {
             throw new CustomException(ResponseStatusEnum.ADMIN_CREATE_ERROR);
         }
+    }
+
+    @Override
+    public PageResult listAdmin(Integer page, Integer pageSize) {
+        Example example = new Example(AdminUser.class);
+        example.orderBy("createTime").desc();
+        // 分页
+        PageHelper.startPage(page, pageSize);
+        return setterPage(adminUserMapper.selectByExample(example), page);
+    }
+
+    private PageResult setterPage(List<?> list, int page) {
+        PageInfo<?> pageInfo = new PageInfo<>(list);
+        return new PageResult() {{
+            setRows(list);
+            setPage(page);
+            setRecords(pageInfo.getPages());
+            setTotal(pageInfo.getTotal());
+        }};
     }
 }

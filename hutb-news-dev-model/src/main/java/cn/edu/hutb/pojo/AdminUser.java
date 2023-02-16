@@ -1,7 +1,9 @@
 package cn.edu.hutb.pojo;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 /**
  * 表名：admin_user
@@ -37,14 +39,14 @@ public class AdminUser {
     /**
      * 创建时间 创建时间
      */
-    @Column(name = "created_time")
-    private Date createdTime;
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * 更新时间 更新时间
      */
-    @Column(name = "updated_time")
-    private Date updatedTime;
+    @Column(name = "update_time")
+    private Date updateTime;
 
     /**
      * @return id
@@ -135,36 +137,36 @@ public class AdminUser {
     /**
      * 获取创建时间 创建时间
      *
-     * @return createdTime - 创建时间 创建时间
+     * @return createTime - 创建时间 创建时间
      */
-    public Date getCreatedTime() {
-        return createdTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
     /**
      * 设置创建时间 创建时间
      *
-     * @param createdTime 创建时间 创建时间
+     * @param createTime 创建时间 创建时间
      */
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**
      * 获取更新时间 更新时间
      *
-     * @return updatedTime - 更新时间 更新时间
+     * @return updateTime - 更新时间 更新时间
      */
-    public Date getUpdatedTime() {
-        return updatedTime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
     /**
      * 设置更新时间 更新时间
      *
-     * @param updatedTime 更新时间 更新时间
+     * @param updateTime 更新时间 更新时间
      */
-    public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

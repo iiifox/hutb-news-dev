@@ -10,7 +10,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="face_id" jdbcType="VARCHAR" property="faceId" />
     <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
-    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 </mapper>

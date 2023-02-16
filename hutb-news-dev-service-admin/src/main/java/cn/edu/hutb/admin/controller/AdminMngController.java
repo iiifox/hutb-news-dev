@@ -87,6 +87,14 @@ public class AdminMngController extends BaseController
         return JSONResult.ok();
     }
 
+    @Override
+    public JSONResult getAdminList(Integer page, Integer pageSize) {
+        // 为空，赋默认值
+        page = (page == null) ? 1 : page;
+        pageSize = (pageSize == null) ? 10 : pageSize;
+        return JSONResult.ok(adminUserService.listAdmin(page, pageSize));
+    }
+
     /**
      * admin用户登录成功后的基本设置
      */

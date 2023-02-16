@@ -69,8 +69,8 @@ public class UserServiceImpl implements UserService {
         user.setActiveStatus(UserStatus.INACTIVE.type);
 
         user.setTotalIncome(0);
-        user.setCreatedTime(new Date());
-        user.setUpdatedTime(new Date());
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
 
         appUserMapper.insert(user);
         return user;
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
         AppUser user = new AppUser();
         BeanUtils.copyProperties(bo, user);
-        user.setUpdatedTime(new Date());
+        user.setUpdateTime(new Date());
         user.setActiveStatus(UserStatus.ACTIVE.type);
         if (appUserMapper.updateByPrimaryKeySelective(user) != 1) {
             throw new CustomException(ResponseStatusEnum.USER_UPDATE_ERROR);

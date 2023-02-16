@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="hutb-news-dev-service-user/Hibernate" uuid="b4ffa71f-b2cb-4aed-b3a6-0adcc39f94e4">
+    <data-source source="LOCAL" name="hutb-news-dev" uuid="5217e00d-fde2-492a-a8ad-0b1e157e59bd">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
-      <remarks>MyBatis</remarks>
+      <remarks>Hibernate</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://192.168.1.100:3306/hutb-news-dev?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

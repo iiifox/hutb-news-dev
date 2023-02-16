@@ -18,7 +18,7 @@
     <result column="district" jdbcType="VARCHAR" property="district" />
     <result column="active_status" jdbcType="INTEGER" property="activeStatus" />
     <result column="total_income" jdbcType="INTEGER" property="totalIncome" />
-    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 </mapper>
