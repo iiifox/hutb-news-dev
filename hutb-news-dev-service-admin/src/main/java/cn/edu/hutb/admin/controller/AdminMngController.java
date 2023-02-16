@@ -95,6 +95,17 @@ public class AdminMngController extends BaseController
         return JSONResult.ok(adminUserService.listAdmin(page, pageSize));
     }
 
+    @Override
+    public JSONResult logout(String adminId, HttpServletResponse response) {
+        // 从redis中删除admin的会话token
+        redisTemplate.delete(String.format(RedisConsts.ADMIN_TOKEN, adminId));
+        // 从cookie中清理admin登录的相关信息
+        deleteCookie(response, "atoken");
+        deleteCookie(response, "aid");
+        deleteCookie(response, "aname");
+        return JSONResult.ok();
+    }
+
     /**
      * admin用户登录成功后的基本设置
      */

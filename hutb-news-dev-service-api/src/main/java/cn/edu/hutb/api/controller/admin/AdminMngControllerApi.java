@@ -41,4 +41,10 @@ public interface AdminMngControllerApi {
      */
     @PostMapping("getAdminList")
     JSONResult getAdminList(@RequestParam Integer page, @RequestParam Integer pageSize);
+
+    /**
+     * admin用户退出登录
+     */
+    @PostMapping("/adminLogout")
+    JSONResult logout(@RequestParam String adminId, HttpServletResponse response);
 }
