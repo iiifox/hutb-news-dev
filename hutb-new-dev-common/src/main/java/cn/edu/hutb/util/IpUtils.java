@@ -13,7 +13,7 @@ import java.util.Arrays;
 public final class IpUtils {
 
     private IpUtils() {
-        throw new AssertionError("cn.edu.hutb.util.IpUtils instances for you!");
+        throw new AssertionError("No cn.edu.hutb.util.IpUtils instances for you!");
     }
 
     private static final String UNKNOWN = "unknown";

@@ -64,7 +64,6 @@ public class COSUtils {
         // 确认本进程不再使用 cosClient 实例之后，关闭之
         cosClient.shutdown();
 
-        // 属性全为final，直接使用String不会降低性能
         return "https://" + bucketName + ".cos." + regionName + ".myqcloud.com/" + key;
     }
 }

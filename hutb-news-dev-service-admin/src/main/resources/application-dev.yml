@@ -1,7 +1,6 @@
 server:
   port: 8005
 
-
 spring:
   datasource: # 数据源的相关配置
     driver-class-name: com.mysql.cj.jdbc.Driver       # mysql驱动
@@ -13,6 +12,10 @@ spring:
     host: 192.168.1.100
     port: 6379
     password: 123456
+  data:
+    mongodb:
+      uri: mongodb://root:123456@192.168.1.100:27017
+      database: hutb-news
 
 mybatis:
   configuration:

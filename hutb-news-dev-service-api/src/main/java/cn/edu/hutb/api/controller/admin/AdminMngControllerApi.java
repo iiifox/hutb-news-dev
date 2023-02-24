@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 public interface AdminMngControllerApi {
 
     /**
-     * admin用户登录
+     * admin用户密码登录
      */
     @PostMapping("/adminLogin")
-    JSONResult login(@RequestBody AdminLoginBO bo, HttpServletResponse response);
+    JSONResult passwordLogin(@RequestBody AdminLoginBO bo, HttpServletResponse response);
 
     /**
      * 校验admin登录名唯一

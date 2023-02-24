@@ -36,7 +36,7 @@ public class AdminMngController extends BaseController
     private StringRedisTemplate redisTemplate;
 
     @Override
-    public JSONResult login(AdminLoginBO bo, HttpServletResponse response) {
+    public JSONResult passwordLogin(AdminLoginBO bo, HttpServletResponse response) {
         // 用户名和密码不能为空
         String username = bo.getUsername();
         String password = bo.getPassword();

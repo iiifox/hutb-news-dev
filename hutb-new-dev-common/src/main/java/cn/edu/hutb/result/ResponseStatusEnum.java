@@ -11,22 +11,22 @@ public enum ResponseStatusEnum {
     FAILED(500, false, "操作失败！"),
 
     // 50x
-    UN_LOGIN(501,false,"请登录后再继续操作！"),
-    TICKET_INVALID(502,false,"会话失效，请重新登录！"),
-    NO_AUTH(503,false,"您的权限不足，无法继续操作！"),
-    MOBILE_ERROR(504,false,"短信发送失败，请稍后重试！"),
-    SMS_NEED_WAIT_ERROR(505,false,"短信发送太快啦~请稍后再试！"),
-    SMS_CODE_ERROR(506,false,"验证码过期或不匹配，请稍后再试！"),
-    USER_FROZEN(507,false,"用户已被冻结，请联系管理员！"),
-    USER_UPDATE_ERROR(508,false,"用户信息更新失败，请联系管理员！"),
-    USER_INACTIVE_ERROR(509,false,"请前往[账号设置]修改信息激活后再进行后续操作！"),
-    FILE_UPLOAD_NULL_ERROR(510,false,"文件不能为空，请选择一个文件再上传！"),
-    FILE_UPLOAD_FAILED(511,false,"文件上传失败！"),
-    FILE_FORMATTER_FAILED(512,false,"文件图片格式不支持！"),
-    FILE_MAX_SIZE_ERROR(513,false,"仅支持500kb大小以下的图片上传！"),
-    FILE_NOT_EXIST_ERROR(514,false,"你所查看的文件不存在！"),
-    USER_STATUS_ERROR(515,false,"用户状态参数出错！"),
-    USER_NOT_EXIST_ERROR(516,false,"用户不存在！"),
+    UN_LOGIN(501, false, "请登录后再继续操作！"),
+    TICKET_INVALID(502, false, "会话失效，请重新登录！"),
+    NO_AUTH(503, false, "您的权限不足，无法继续操作！"),
+    MOBILE_ERROR(504, false, "短信发送失败，请稍后重试！"),
+    SMS_NEED_WAIT_ERROR(505, false, "短信发送太快啦~请稍后再试！"),
+    SMS_CODE_ERROR(506, false, "验证码过期或不匹配，请稍后再试！"),
+    USER_FROZEN(507, false, "用户已被冻结，请联系管理员！"),
+    USER_UPDATE_ERROR(508, false, "用户信息更新失败，请联系管理员！"),
+    USER_INACTIVE_ERROR(509, false, "请前往[账号设置]修改信息激活后再进行后续操作！"),
+    FILE_UPLOAD_NULL_ERROR(510, false, "文件不能为空，请选择一个文件再上传！"),
+    FILE_UPLOAD_FAILED(511, false, "文件上传失败！"),
+    FILE_FORMATTER_FAILED(512, false, "文件图片格式不支持！"),
+    FILE_MAX_SIZE_ERROR(513, false, "仅支持500kb大小以下的图片上传！"),
+    FILE_NOT_EXIST_ERROR(514, false, "你所查看的文件不存在！"),
+    USER_STATUS_ERROR(515, false, "用户状态参数出错！"),
+    USER_NOT_EXIST_ERROR(516, false, "用户不存在！"),
 
     // 自定义系统级别异常 54x
     SYSTEM_INDEX_OUT_OF_BOUNDS(541, false, "系统错误，数组越界！"),
@@ -97,9 +97,11 @@ public enum ResponseStatusEnum {
     public Integer status() {
         return status;
     }
+
     public Boolean success() {
         return success;
     }
+
     public String msg() {
         return msg;
     }
