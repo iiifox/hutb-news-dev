@@ -16,4 +16,8 @@ public interface FriendLinkService {
      */
     List<FriendLinkMO> list();
 
+    /**
+     * 删除友情链接
+     */
+    void delete(String id);
 }

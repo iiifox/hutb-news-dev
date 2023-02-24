@@ -43,6 +43,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // admin登录校验拦截器
         registry.addInterceptor(adminTokenInterceptor())
                 .addPathPatterns("/adminMng/adminIsExist", "/adminMng/addNewAdmin", "/adminMng/getAdminList")
-                .addPathPatterns("/fs/readInGridFS", "/fs/uploadToGridFS");
+                .addPathPatterns("/fs/readInGridFS", "/fs/uploadToGridFS")
+                .addPathPatterns("/friendLinkMng/saveOrUpdateFriendLink", "/friendLinkMng/getFriendLinkList", "/friendLinkMng/delete");
     }
 }

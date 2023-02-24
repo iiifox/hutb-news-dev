@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -28,4 +29,10 @@ public interface FriendLinkControllerApi {
      */
     @PostMapping("/getFriendLinkList")
     JSONResult list();
+
+    /**
+     * 删除友情链接
+     */
+    @PostMapping("/delete")
+    JSONResult delete(@RequestParam String linkId);
 }
