@@ -44,6 +44,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(adminTokenInterceptor())
                 .addPathPatterns("/adminMng/adminIsExist", "/adminMng/addNewAdmin", "/adminMng/getAdminList")
                 .addPathPatterns("/fs/readInGridFS", "/fs/uploadToGridFS")
-                .addPathPatterns("/friendLinkMng/saveOrUpdateFriendLink", "/friendLinkMng/getFriendLinkList", "/friendLinkMng/delete");
+                .addPathPatterns("/friendLinkMng/saveOrUpdateFriendLink", "/friendLinkMng/getFriendLinkList", "/friendLinkMng/delete")
+                .addPathPatterns("/categoryMng/saveOrUpdateCategory", "/categoryMng/getCatList");
     }
 }

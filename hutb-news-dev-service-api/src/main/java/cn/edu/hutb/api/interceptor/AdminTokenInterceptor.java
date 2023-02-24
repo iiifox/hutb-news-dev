@@ -13,7 +13,7 @@ public class AdminTokenInterceptor extends BaseInterceptor
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String id = request.getHeader("adminUserId");
         String token = request.getHeader("adminUserToken");
-        verifyToken(id, token, RedisConsts.ADMIN_TOKEN);
+        verifyToken(id, token, RedisConsts.ADMIN_TOKEN_FORMATTER);
         return true;
     }
 }

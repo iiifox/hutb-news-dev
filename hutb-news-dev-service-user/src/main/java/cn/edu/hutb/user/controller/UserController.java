@@ -87,12 +87,12 @@ public class UserController extends BaseController
     private AppUser getUser(String userId) {
         // 如果Redis中是包含用户信息，则直接返回（不查询数据库）
         String userJson = redisTemplate.opsForValue()
-                .get(String.format(RedisConsts.USER_INFO, userId));
+                .get(String.format(RedisConsts.USER_INFO_FORMATTER, userId));
         if (userJson != null) {
             return JsonUtils.jsonToPojo(userJson, AppUser.class);
         } else {
             AppUser user = userService.getUser(userId);
-            redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO, userId),
+            redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO_FORMATTER, userId),
                     Objects.requireNonNull(JsonUtils.objectToJson(user)), 30, TimeUnit.DAYS);
             return user;
         }

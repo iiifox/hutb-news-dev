@@ -1,7 +1,6 @@
 package cn.edu.hutb.api.interceptor;
 
 
-import cn.edu.hutb.api.interceptor.BaseInterceptor;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.enums.UserStatus;
 import cn.edu.hutb.pojo.AppUser;
@@ -35,7 +34,7 @@ public class UserActiveInterceptor extends BaseInterceptor
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String userId = request.getHeader("headerUserId");
         String userJson = redisTemplate.opsForValue()
-                .get(String.format(RedisConsts.USER_INFO, userId));
+                .get(String.format(RedisConsts.USER_INFO_FORMATTER, userId));
         if (userJson == null) {
             throw new CustomException(ResponseStatusEnum.UN_LOGIN);
         }

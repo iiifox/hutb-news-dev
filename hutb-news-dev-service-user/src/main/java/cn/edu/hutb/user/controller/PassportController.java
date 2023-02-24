@@ -51,7 +51,7 @@ public class PassportController extends BaseController
         String ip = IpUtils.getRemoteIp(request);
         // 对ip进行限制，同一个ip在一分钟内不能够重复请求
         if (!Boolean.TRUE.equals(redisTemplate.opsForValue()
-                .setIfAbsent(String.format(RedisConsts.MOBILE_SMSCODE, ip), ip, 60, TimeUnit.SECONDS))) {
+                .setIfAbsent(String.format(RedisConsts.MOBILE_SMSCODE_FORMATTER, ip), ip, 60, TimeUnit.SECONDS))) {
             throw new CustomException(ResponseStatusEnum.SMS_NEED_WAIT_ERROR);
         }
 
@@ -66,7 +66,7 @@ public class PassportController extends BaseController
         }
         // 把验证码存入Redis，用于后续进行验证
         redisTemplate.opsForValue()
-                .set(String.format(RedisConsts.MOBILE_SMSCODE, mobile), code, 5, TimeUnit.MINUTES);
+                .set(String.format(RedisConsts.MOBILE_SMSCODE_FORMATTER, mobile), code, 5, TimeUnit.MINUTES);
         return JSONResult.ok();
     }
 
@@ -80,7 +80,7 @@ public class PassportController extends BaseController
         // 校验验证码是否匹配
         String mobile = bo.getMobile();
         String smsCode = bo.getSmsCode();
-        if (!smsCode.equals(redisTemplate.opsForValue().get(String.format(RedisConsts.MOBILE_SMSCODE, mobile)))) {
+        if (!smsCode.equals(redisTemplate.opsForValue().get(String.format(RedisConsts.MOBILE_SMSCODE_FORMATTER, mobile)))) {
             throw new CustomException(ResponseStatusEnum.SMS_CODE_ERROR);
         }
 
@@ -101,7 +101,7 @@ public class PassportController extends BaseController
 
     @Override
     public JSONResult logout(String userId, HttpServletResponse response) {
-        redisTemplate.delete(String.format(RedisConsts.USER_TOKEN, userId));
+        redisTemplate.delete(String.format(RedisConsts.USER_TOKEN_FORMATTER, userId));
         deleteCookie(response, "utoken");
         deleteCookie(response, "uid");
         return JSONResult.ok();
@@ -113,19 +113,19 @@ public class PassportController extends BaseController
     private void registerLoginSetting(AppUser user, HttpServletResponse response) {
         // 保存用户信息到Redis
         String userId = user.getId();
-        redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO, userId),
+        redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO_FORMATTER, userId),
                 Objects.requireNonNull(JsonUtils.objectToJson(user)), 30, TimeUnit.DAYS);
 
         // 保存用户分布式会话的相关操作
         String uToken = UUID.randomUUID().toString().replaceAll("-", "");
         // 保存token到Redis
         redisTemplate.opsForValue()
-                .set(String.format(RedisConsts.USER_TOKEN, userId), uToken, 30, TimeUnit.DAYS);
+                .set(String.format(RedisConsts.USER_TOKEN_FORMATTER, userId), uToken, 30, TimeUnit.DAYS);
         // 保存用户id和token到cookie中
         setCookieSevenDays(response, "utoken", uToken);
         setCookieSevenDays(response, "uid", userId);
 
         // 用户登录或注册成功以后，删除Redis中的短信验证码
-        redisTemplate.delete(String.format(RedisConsts.MOBILE_SMSCODE, user.getMobile()));
+        redisTemplate.delete(String.format(RedisConsts.MOBILE_SMSCODE_FORMATTER, user.getMobile()));
     }
 }

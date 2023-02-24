@@ -35,7 +35,7 @@ public class UserTokenInterceptor extends BaseInterceptor
         String userId = request.getHeader("headerUserId");
         String userToken = request.getHeader("headerUserToken");
         // 校验用户的id和token
-        verifyToken(userId, userToken, RedisConsts.USER_TOKEN);
+        verifyToken(userId, userToken, RedisConsts.USER_TOKEN_FORMATTER);
         return true;
     }
 

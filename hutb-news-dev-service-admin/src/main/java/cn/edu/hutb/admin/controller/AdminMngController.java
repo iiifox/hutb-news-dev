@@ -102,7 +102,7 @@ public class AdminMngController extends BaseController
     @Override
     public JSONResult logout(String adminId, HttpServletResponse response) {
         // 从redis中删除admin的会话token
-        redisTemplate.delete(String.format(RedisConsts.ADMIN_TOKEN, adminId));
+        redisTemplate.delete(String.format(RedisConsts.ADMIN_TOKEN_FORMATTER, adminId));
         // 从cookie中清理admin登录的相关信息
         deleteCookie(response, "atoken");
         deleteCookie(response, "aid");
@@ -155,7 +155,7 @@ public class AdminMngController extends BaseController
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         // 保存token到Redis
         redisTemplate.opsForValue()
-                .set(String.format(RedisConsts.ADMIN_TOKEN, adminId), token, 30, TimeUnit.DAYS);
+                .set(String.format(RedisConsts.ADMIN_TOKEN_FORMATTER, adminId), token, 30, TimeUnit.DAYS);
         // 保存admin用户id和token到cookie中
         setCookieSevenDays(response, "atoken", token);
         setCookieSevenDays(response, "aid", adminId);

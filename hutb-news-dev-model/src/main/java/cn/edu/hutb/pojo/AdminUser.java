@@ -1,9 +1,7 @@
 package cn.edu.hutb.pojo;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.*;
 
 /**
  * 表名：admin_user

@@ -30,9 +30,8 @@ public class JsonUtils {
         try {
             return MAPPER.writeValueAsString(data);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**
@@ -47,9 +46,8 @@ public class JsonUtils {
         try {
             return MAPPER.readValue(jsonData, beanType);
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**
@@ -65,8 +63,7 @@ public class JsonUtils {
         try {
             return MAPPER.readValue(jsonData, javaType);
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }
