@@ -35,8 +35,15 @@ public class FriendLinkController extends BaseController
         BeanUtils.copyProperties(bo, mo);
         mo.setCreateTime(new Date());
         mo.setUpdateTime(new Date());
+        // 设置主键id
+        mo.setId(mo.getLinkUrl());
 
         friendLinkService.saveOrUpdate(mo);
         return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult list() {
+        return JSONResult.ok(friendLinkService.list());
     }
 }

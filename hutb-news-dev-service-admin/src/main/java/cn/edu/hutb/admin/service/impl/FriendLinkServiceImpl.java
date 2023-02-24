@@ -6,6 +6,8 @@ import cn.edu.hutb.pojo.mongo.FriendLinkMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author 田章
  * @description
@@ -21,5 +23,10 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     public void saveOrUpdate(FriendLinkMO mo) {
         // save：有 id 就更新，无 id 则保存
         friendLinkRepository.save(mo);
+    }
+
+    @Override
+    public List<FriendLinkMO> list() {
+        return friendLinkRepository.findAll();
     }
 }

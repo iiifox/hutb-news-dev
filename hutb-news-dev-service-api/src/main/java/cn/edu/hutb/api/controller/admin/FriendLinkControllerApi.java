@@ -22,4 +22,10 @@ public interface FriendLinkControllerApi {
      */
     @PostMapping("/saveOrUpdateFriendLink")
     JSONResult saveOrUpdate(@RequestBody @Valid SaveOrUpdateFriendLinkBO bo, BindingResult result);
+
+    /**
+     * 查询友情链接列表
+     */
+    @PostMapping("/getFriendLinkList")
+    JSONResult list();
 }
