@@ -5,17 +5,11 @@ import lombok.*;
 import java.util.Map;
 
 /**
- * 自定义响应数据类型枚举升级版本
- *
- * @author 慕课网 - 风间影月
- * @version V2.0
- * @Title: IMOOCJSONResult.java
- * @Package com.imooc.utils
- * @Description: 自定义响应数据结构
+ * 自定义响应数据类型枚举
+ * <p>
  * 本类可提供给 H5/ios/安卓/公众号/小程序 使用
  * 前端接受此类数据（json object)后，可自行根据业务去实现相关功能
- * @Copyright: Copyright (c) 2020
- * @Company: www.imooc.com
+ * </p>
  */
 @Getter
 @Setter
@@ -37,6 +31,9 @@ public class JSONResult {
      * 响应数据，可以是Object，也可以是List或Map等
      */
     private Object data;
+
+    private JSONResult() {
+    }
 
     private JSONResult(ResponseStatusEnum responseStatus) {
         this.status = responseStatus.status();

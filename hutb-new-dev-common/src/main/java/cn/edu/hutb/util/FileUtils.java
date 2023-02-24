@@ -61,9 +61,6 @@ public class FileUtils {
 
     /**
      * 文件转换为base64
-     *
-     * @param file
-     * @return
      */
     public static String fileToBase64(File file) {// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
         byte[] fileData = null;

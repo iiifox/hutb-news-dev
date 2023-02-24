@@ -47,4 +47,11 @@ public interface AdminMngControllerApi {
      */
     @PostMapping("/adminLogout")
     JSONResult logout(@RequestParam String adminId, HttpServletResponse response);
+
+    /**
+     * admin管理员人脸登录
+     */
+    @PostMapping("/adminFaceLogin")
+    JSONResult faceLogin(@RequestBody AdminLoginBO bo, HttpServletResponse response);
 }
+

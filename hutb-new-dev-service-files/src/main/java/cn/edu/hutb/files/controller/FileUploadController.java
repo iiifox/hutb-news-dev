@@ -3,6 +3,7 @@ package cn.edu.hutb.files.controller;
 import cn.edu.hutb.api.controller.files.FileUploadControllerApi;
 import cn.edu.hutb.files.service.UploadService;
 import cn.edu.hutb.pojo.bo.NewAdminBO;
+import cn.edu.hutb.result.CustomException;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.result.ResponseStatusEnum;
 import cn.edu.hutb.util.FileUtils;
@@ -63,25 +64,38 @@ public class FileUploadController implements FileUploadControllerApi {
     }
 
     @Override
-    public JSONResult getAdminFace(String faceId, HttpServletResponse response) throws IOException {
+    public JSONResult getAdminFace(String faceId, HttpServletResponse response) {
         // 参数判断
         if (StringUtils.isBlank(faceId) || "null".equalsIgnoreCase(faceId)) {
             return JSONResult.errorCustom(ResponseStatusEnum.FILE_NOT_EXIST_ERROR);
         }
-        // 从GridFS中根据faceId查找用户人脸数据
+        // 人脸以流的形式响应给前端
+        FileUtils.downloadFileByStream(response, getFaceByFaceId(faceId));
+        return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult readFace64InGridFS(String faceId) {
+        return JSONResult.ok(FileUtils.fileToBase64(getFaceByFaceId(faceId)));
+    }
+
+    /**
+     * 从GridFS中根据faceId查找用户人脸数据
+     */
+    private File getFaceByFaceId(String faceId) {
         GridFSFile fsFile = gridFSBucket.find(Filters.eq("_id", new ObjectId(faceId))).first();
         if (fsFile == null) {
-            return JSONResult.errorCustom(ResponseStatusEnum.FILE_NOT_EXIST_ERROR);
+            throw new CustomException(ResponseStatusEnum.FILE_NOT_EXIST_ERROR);
         }
-
         // 获取文件流，将文件保存到服务器临时目录
         File parent = new File("/workspace/temp_face");
         parent.mkdirs();
         File adminFace = new File(parent, fsFile.getFilename());
-        OutputStream os = new BufferedOutputStream(Files.newOutputStream(adminFace.toPath()));
-        gridFSBucket.downloadToStream(new ObjectId(faceId), os);
-
-        FileUtils.downloadFileByStream(response, adminFace);
-        return JSONResult.ok();
+        try (OutputStream os = new BufferedOutputStream(Files.newOutputStream(adminFace.toPath()));) {
+            gridFSBucket.downloadToStream(new ObjectId(faceId), os);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return adminFace;
     }
 }

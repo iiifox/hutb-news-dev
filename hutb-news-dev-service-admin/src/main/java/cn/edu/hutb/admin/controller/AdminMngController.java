@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import wiremock.org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,9 @@ public class AdminMngController extends BaseController
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public JSONResult passwordLogin(AdminLoginBO bo, HttpServletResponse response) {
@@ -103,6 +107,42 @@ public class AdminMngController extends BaseController
         deleteCookie(response, "atoken");
         deleteCookie(response, "aid");
         deleteCookie(response, "aname");
+        return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult faceLogin(AdminLoginBO bo, HttpServletResponse response) {
+        // 用户名和人脸信息不能为空
+        String username = bo.getUsername();
+        String img64 = bo.getImg64();
+        if (StringUtils.isBlank(username)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_USERNAME_NULL_ERROR);
+        }
+        if (StringUtils.isBlank(img64)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_FACE_NULL_ERROR);
+        }
+
+        // 从数据库中查询出faceId
+        AdminUser admin = adminUserService.getAdminByUsername(username);
+        if (admin == null) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_NOT_EXIT_ERROR);
+        }
+        String faceId = admin.getFaceId();
+        if (StringUtils.isBlank(faceId)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.ADMIN_FACE_LOGIN_ERROR);
+        }
+
+        // 请求文件服务，获取人脸信息的base64数据
+        String url = "http://files.hutbnews.com:8004/fs/readFace64InGridFS?faceId=" + faceId;
+        // 这里注意：第二个参数类型必须有无参构造器
+        JSONResult result = restTemplate.getForObject(url, JSONResult.class);
+        String base64DB = (String) result.getData();
+
+        // TODO 调用阿里云人脸比对接口，对可信度进行判断，从而实现人脸登录
+        // TODO 需付费，暂未提供实现
+
+        // admin用户登录成功后的基本设置
+        loginSetting(admin, response);
         return JSONResult.ok();
     }
 

@@ -32,5 +32,14 @@ public interface FileUploadControllerApi {
      * 从GridFS中获取管理员人脸数据
      */
     @GetMapping("/readInGridFS")
-    JSONResult getAdminFace(@RequestParam String faceId, HttpServletResponse response) throws IOException;
+    JSONResult getAdminFace(@RequestParam String faceId, HttpServletResponse response);
+
+    /**
+     * 根据faceId从GridFS中读取人脸图片，并且返回其base64
+     * <p>
+     * 该接口仅供后端调用
+     * </p>
+     */
+    @GetMapping("/readFace64InGridFS")
+    JSONResult readFace64InGridFS(String faceId);
 }
