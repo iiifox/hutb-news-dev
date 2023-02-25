@@ -2,7 +2,7 @@ package cn.edu.hutb.admin.service;
 
 import cn.edu.hutb.pojo.AdminUser;
 import cn.edu.hutb.pojo.bo.NewAdminBO;
-import cn.edu.hutb.result.page.PageResult;
+import cn.edu.hutb.api.page.PageResult;
 
 /**
  * @author 田章
@@ -24,5 +24,5 @@ public interface AdminUserService {
     /**
      * 分页查询admin用户列表
      */
-    PageResult listAdmin(Integer page, Integer pageSize);
+    PageResult listAdmin(int page, int pageSize);
 }

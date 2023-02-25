@@ -8,7 +8,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 
-public class FileUtils {
+public final class FileUtils {
 
     /**
      * 文件流下载，在浏览器展示

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * json转换工具类
  */
-public class JsonUtils {
+public final class JsonUtils {
 
     /**
      * 定义jackson对象

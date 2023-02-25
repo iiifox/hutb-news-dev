@@ -2,7 +2,10 @@ package cn.edu.hutb.util;
 
 import java.util.regex.Pattern;
 
-public class RegexUtils {
+/**
+ * 正则工具类
+ */
+public final class RegexUtils {
 
     // + "(http|https|ftp|file)://"
     // + "([a-z0-9][a-z0-9-]*[a-z0-9]\\.)+([a-z0-9]+[a-z0-9-]*[a-z0-9]+)(:\\d+)?"

@@ -3,7 +3,7 @@ package cn.edu.hutb.util;
 /**
  * 脱敏工具类
  */
-public class DesensitizationUtils {
+public final class DesensitizationUtils {
 
     /**
      * 【11位手机号码】前三后四，比如：176****4099

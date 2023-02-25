@@ -3,6 +3,7 @@ package cn.edu.hutb.admin.controller;
 import cn.edu.hutb.admin.service.AdminUserService;
 import cn.edu.hutb.api.controller.BaseController;
 import cn.edu.hutb.api.controller.admin.AdminMngControllerApi;
+import cn.edu.hutb.constant.PageConsts;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.pojo.AdminUser;
 import cn.edu.hutb.pojo.bo.AdminLoginBO;
@@ -94,8 +95,8 @@ public class AdminMngController extends BaseController
     @Override
     public JSONResult getAdminList(Integer page, Integer pageSize) {
         // 为空，赋默认值
-        page = (page == null) ? 1 : page;
-        pageSize = (pageSize == null) ? 10 : pageSize;
+        page = (page == null) ? PageConsts.DEFAULT_START_PAGE : page;
+        pageSize = (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize;
         return JSONResult.ok(adminUserService.listAdmin(page, pageSize));
     }
 

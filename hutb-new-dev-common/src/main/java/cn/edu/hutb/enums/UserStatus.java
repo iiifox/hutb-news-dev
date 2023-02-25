@@ -23,7 +23,7 @@ public enum UserStatus {
     /**
      * 判断传入的用户状态是不是有效的值
      */
-    public static boolean isUserStatusValid(Integer status) {
+    public static boolean validStatus(Integer status) {
         return INACTIVE.type.equals(status) || ACTIVE.type.equals(status) || FROZEN.type.equals(status);
     }
 

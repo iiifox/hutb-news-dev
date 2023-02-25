@@ -57,3 +57,4 @@ mapper:
 pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
+#  defaultCount: false

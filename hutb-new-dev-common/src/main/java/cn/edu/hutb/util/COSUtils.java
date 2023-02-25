@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
  * @description 腾讯云COS工具类
  * @date 2023/2/14
  */
-public class COSUtils {
+public final class COSUtils {
 
     private static final String secretId;
     private static final String secretKey;
