@@ -1,7 +1,10 @@
 package cn.edu.hutb.article.service;
 
+import cn.edu.hutb.api.page.PageResult;
 import cn.edu.hutb.pojo.Category;
 import cn.edu.hutb.pojo.bo.NewArticleBO;
+
+import java.util.Date;
 
 /**
  * @author 田章
@@ -19,4 +22,15 @@ public interface ArticleService {
      * 更新定时发布为即时发布
      */
     void updateAppointToPublish();
+
+    /**
+     * 用户中心：根据条件查询我的文章列表
+     */
+    PageResult listMyArticleByCondition(String userId,
+                                        String keyword,
+                                        Integer status,
+                                        Date startDate,
+                                        Date endDate,
+                                        Integer page,
+                                        Integer pageSize);
 }

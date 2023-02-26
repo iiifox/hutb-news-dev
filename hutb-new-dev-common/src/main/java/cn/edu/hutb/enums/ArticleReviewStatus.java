@@ -24,16 +24,8 @@ public enum ArticleReviewStatus {
     /**
      * 判断传入的审核状态是不是有效的值
      */
-    public static boolean isArticleStatusValid(Integer tempStatus) {
-        if (tempStatus != null) {
-            if (tempStatus == REVIEWING.type
-                    || tempStatus == WAITING_MANUAL.type
-                    || tempStatus == SUCCESS.type
-                    || tempStatus == FAILED.type
-                    || tempStatus == WITHDRAW.type) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean validStatus(Integer status) {
+        return REVIEWING.type.equals(status) || WAITING_MANUAL.type.equals(status)
+                || SUCCESS.type.equals(status) || FAILED.type.equals(status) && WITHDRAW.type.equals(status);
     }
 }

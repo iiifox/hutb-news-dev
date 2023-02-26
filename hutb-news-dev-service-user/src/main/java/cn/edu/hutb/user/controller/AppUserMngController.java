@@ -32,14 +32,14 @@ public class AppUserMngController implements AppUserMngControllerApi {
     private StringRedisTemplate redisTemplate;
 
     @Override
-    public JSONResult queryAll(String nickname, Integer status, Date startDate, Date endDate, Integer page, Integer pageSize) {
+    public JSONResult queryByCondition(String nickname, Integer status, Date startDate, Date endDate, Integer page, Integer pageSize) {
         System.out.println(startDate);
         System.out.println(endDate);
 
         // 为空，赋默认值
         page = (page == null) ? PageConsts.DEFAULT_START_PAGE : page;
         pageSize = (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize;
-        return JSONResult.ok(appUserMngService.list(nickname, status, startDate, endDate, page, pageSize));
+        return JSONResult.ok(appUserMngService.listByCondition(nickname, status, startDate, endDate, page, pageSize));
     }
 
     @Override

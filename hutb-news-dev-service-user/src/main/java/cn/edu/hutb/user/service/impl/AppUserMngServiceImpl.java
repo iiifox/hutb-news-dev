@@ -23,8 +23,8 @@ public class AppUserMngServiceImpl implements AppUserMngService {
     public AppUserMapper appUserMapper;
 
     @Override
-    public PageResult list(String nickname, Integer status, Date startDate, Date endDate,
-                           Integer page, Integer pageSize) {
+    public PageResult listByCondition(String nickname, Integer status, Date startDate, Date endDate,
+                                      Integer page, Integer pageSize) {
         Example example = new Example(AppUser.class);
         example.orderBy("createTime").desc();
 

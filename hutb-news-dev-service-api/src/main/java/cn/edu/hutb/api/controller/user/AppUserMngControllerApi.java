@@ -14,15 +14,15 @@ import java.util.Date;
 public interface AppUserMngControllerApi {
 
     /**
-     * 查询所有网站用户
+     * 根据条件查询网站用户
      */
     @PostMapping("/queryAll")
-    JSONResult queryAll(@RequestParam String nickname,
-                        @RequestParam Integer status,
-                        @RequestParam Date startDate,
-                        @RequestParam Date endDate,
-                        @RequestParam Integer page,
-                        @RequestParam Integer pageSize);
+    JSONResult queryByCondition(@RequestParam(required = false) String nickname,
+                                @RequestParam(required = false) Integer status,
+                                @RequestParam(required = false) Date startDate,
+                                @RequestParam(required = false) Date endDate,
+                                @RequestParam(required = false) Integer page,
+                                @RequestParam(required = false) Integer pageSize);
 
     /**
      * 查看用户详情

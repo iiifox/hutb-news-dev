@@ -1,5 +1,7 @@
 package cn.edu.hutb.article.service.impl;
 
+import cn.edu.hutb.api.page.PageResult;
+import cn.edu.hutb.api.page.PageUtils;
 import cn.edu.hutb.article.mapper.ArticleMapper;
 import cn.edu.hutb.article.mapper.ArticleMapperCustomer;
 import cn.edu.hutb.article.service.ArticleService;
@@ -11,11 +13,14 @@ import cn.edu.hutb.pojo.Category;
 import cn.edu.hutb.pojo.bo.NewArticleBO;
 import cn.edu.hutb.result.CustomException;
 import cn.edu.hutb.result.ResponseStatusEnum;
+import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -40,10 +45,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     @Override
     public void save(NewArticleBO bo, Category category) {
+        String articleId = sid.nextShort();
+
         Article article = new Article();
         BeanUtils.copyProperties(bo, article);
 
-        article.setId(sid.nextShort());
+        article.setId(articleId);
         article.setCategoryId(category.getId());
         article.setArticleStatus(ArticleReviewStatus.REVIEWING.type);
         article.setCommentCounts(0);
@@ -67,4 +74,43 @@ public class ArticleServiceImpl implements ArticleService {
     public void updateAppointToPublish() {
         articleMapperCustomer.updateAppointToPublish();
     }
+
+    @Override
+    public PageResult listMyArticleByCondition(String userId,
+                                               String keyword,
+                                               Integer status,
+                                               Date startDate,
+                                               Date endDate,
+                                               Integer page,
+                                               Integer pageSize) {
+        Example example = new Example(Article.class);
+        // 排序规则
+        example.orderBy("createTime").desc();
+
+        // 条件表达式
+        Example.Criteria criteria = example.createCriteria()
+                .andEqualTo("publishUserId", userId)
+                .andEqualTo("isDelete", YesOrNo.NO.type);
+        if (StringUtils.isNotBlank(keyword)) {
+            criteria.andLike("title", "%" + keyword + "%");
+        }
+        if (ArticleReviewStatus.validStatus(status)) {
+            criteria.andEqualTo("articleStatus", status);
+        }
+        // 前端约定好，12为审核中
+        if (status != null && status == 12) {
+            criteria.andEqualTo("articleStatus", ArticleReviewStatus.REVIEWING.type)
+                    .orEqualTo("articleStatus", ArticleReviewStatus.WAITING_MANUAL.type);
+        }
+        if (startDate != null) {
+            criteria.andGreaterThanOrEqualTo("publishTime", startDate);
+        }
+        if (endDate != null) {
+            criteria.andLessThanOrEqualTo("publishTime", endDate);
+        }
+
+        PageHelper.startPage(page, pageSize);
+        return PageUtils.setterPage(articleMapper.selectByExample(example), page);
+    }
+
 }

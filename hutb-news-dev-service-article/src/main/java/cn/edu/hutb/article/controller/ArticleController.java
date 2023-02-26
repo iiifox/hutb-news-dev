@@ -3,6 +3,7 @@ package cn.edu.hutb.article.controller;
 import cn.edu.hutb.api.controller.BaseController;
 import cn.edu.hutb.api.controller.article.ArticleControllerApi;
 import cn.edu.hutb.article.service.ArticleService;
+import cn.edu.hutb.constant.PageConsts;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.enums.ArticleCoverType;
 import cn.edu.hutb.pojo.Category;
@@ -16,6 +17,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -62,5 +64,18 @@ public class ArticleController extends BaseController
             }
         }
         return JSONResult.errorCustom(ResponseStatusEnum.ARTICLE_CATEGORY_NOT_EXIST_ERROR);
+    }
+
+    @Override
+    public JSONResult queryMyArticleByCondition(String userId,
+                                                String keyword,
+                                                Integer status,
+                                                Date startDate,
+                                                Date endDate,
+                                                Integer page,
+                                                Integer pageSize) {
+        return JSONResult.ok(articleService.listMyArticleByCondition(userId, keyword, status, startDate, endDate,
+                (page == null) ? PageConsts.DEFAULT_START_PAGE : page,
+                (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
     }
 }

@@ -40,7 +40,8 @@ public interface AdminMngControllerApi {
      * 查询admin用户列表
      */
     @PostMapping("getAdminList")
-    JSONResult getAdminList(@RequestParam Integer page, @RequestParam Integer pageSize);
+    JSONResult getAdminList(@RequestParam(required = false) Integer page,
+                            @RequestParam(required = false) Integer pageSize);
 
     /**
      * admin用户退出登录
