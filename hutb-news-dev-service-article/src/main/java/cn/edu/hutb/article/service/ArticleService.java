@@ -33,4 +33,25 @@ public interface ArticleService {
                                         Date endDate,
                                         Integer page,
                                         Integer pageSize);
+
+    /**
+     * 更改文章审核状态
+     */
+    void updateArticleStatus(String articleId, Integer pendingStatus);
+
+    /**
+     * 管理员查询文章列表
+     */
+    PageResult listByStatus(Integer status, Integer page, Integer pageSize);
+
+
+    /**
+     * 删除文章
+     */
+    void deleteArticle(String userId, String articleId);
+
+    /**
+     * 撤回文章
+     */
+    void withdrawArticle(String userId, String articleId);
 }

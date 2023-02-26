@@ -6,6 +6,7 @@ import cn.edu.hutb.article.mapper.ArticleMapper;
 import cn.edu.hutb.article.mapper.ArticleMapperCustomer;
 import cn.edu.hutb.article.service.ArticleService;
 import cn.edu.hutb.enums.ArticleAppointType;
+import cn.edu.hutb.enums.ArticleReviewLevel;
 import cn.edu.hutb.enums.ArticleReviewStatus;
 import cn.edu.hutb.enums.YesOrNo;
 import cn.edu.hutb.pojo.Article;
@@ -67,6 +68,19 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleMapper.insert(article) != 1) {
             throw new CustomException(ResponseStatusEnum.ARTICLE_CREATE_ERROR);
         }
+
+        // TODO 使用阿里云文本反垃圾审核对文章文本进行自动审核（暂时写死）
+        String aliTextReviewResult = ArticleReviewLevel.REVIEW.type;
+        if (ArticleReviewLevel.PASS.type.equals(aliTextReviewResult)) {
+            // 修改当前的文章，状态标记为审核通过
+            this.updateArticleStatus(articleId, ArticleReviewStatus.SUCCESS.type);
+        } else if (ArticleReviewLevel.REVIEW.type.equals(aliTextReviewResult)) {
+            // 修改当前的文章，状态标记为需要人工审核
+            this.updateArticleStatus(articleId, ArticleReviewStatus.WAITING_MANUAL.type);
+        } else if (ArticleReviewLevel.BLOCK.type.equals(aliTextReviewResult)) {
+            // 修改当前的文章，状态标记为审核未通过
+            this.updateArticleStatus(articleId, ArticleReviewStatus.FAILED.type);
+        }
     }
 
     @Transactional
@@ -113,4 +127,68 @@ public class ArticleServiceImpl implements ArticleService {
         return PageUtils.setterPage(articleMapper.selectByExample(example), page);
     }
 
+    /**
+     * 更改文章审核状态
+     */
+    @Transactional
+    @Override
+    public void updateArticleStatus(String articleId, Integer pendingStatus) {
+        Example example = new Example(Article.class);
+        example.createCriteria().andEqualTo("id", articleId);
+
+        Article pendingArticle = new Article();
+        pendingArticle.setArticleStatus(pendingStatus);
+
+        if (articleMapper.updateByExampleSelective(pendingArticle, example) != 1) {
+            throw new CustomException(ResponseStatusEnum.ARTICLE_REVIEW_ERROR);
+        }
+    }
+
+    @Override
+    public PageResult listByStatus(Integer status, Integer page, Integer pageSize) {
+        Example articleExample = new Example(Article.class);
+        articleExample.orderBy("createTime").desc();
+
+        Example.Criteria criteria = articleExample.createCriteria().andEqualTo("isDelete", YesOrNo.NO.type);
+        if (ArticleReviewStatus.validStatus(status)) {
+            criteria.andEqualTo("articleStatus", status);
+        }
+
+        // 审核中是机审和人审核的两个状态，所以需要单独判断
+        if (status != null && status == 12) {
+            criteria.andEqualTo("articleStatus", ArticleReviewStatus.REVIEWING.type)
+                    .orEqualTo("articleStatus", ArticleReviewStatus.WAITING_MANUAL.type);
+        }
+
+        PageHelper.startPage(page, pageSize);
+        return PageUtils.setterPage(articleMapper.selectByExample(articleExample), page);
+    }
+
+    @Transactional
+    @Override
+    public void deleteArticle(String userId, String articleId) {
+        Article pending = new Article();
+        pending.setIsDelete(YesOrNo.YES.type);
+        if (articleMapper.updateByExampleSelective(pending, makeExample(userId, articleId)) != 1) {
+            throw new CustomException(ResponseStatusEnum.ARTICLE_DELETE_ERROR);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void withdrawArticle(String userId, String articleId) {
+        Article pending = new Article();
+        pending.setArticleStatus(ArticleReviewStatus.WITHDRAW.type);
+        if (articleMapper.updateByExampleSelective(pending, makeExample(userId, articleId)) != 1) {
+            throw new CustomException(ResponseStatusEnum.ARTICLE_WITHDRAW_ERROR);
+        }
+    }
+
+    private Example makeExample(String userId, String articleId) {
+        Example articleExample = new Example(Article.class);
+        articleExample.createCriteria()
+                .andEqualTo("publishUserId", userId)
+                .andEqualTo("id", articleId);
+        return articleExample;
+    }
 }

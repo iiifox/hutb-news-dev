@@ -36,4 +36,30 @@ public interface ArticleControllerApi {
                                          @RequestParam(required = false) Date endDate,
                                          @RequestParam(required = false) Integer page,
                                          @RequestParam(required = false) Integer pageSize);
+
+    /**
+     * 管理员查询用户的所有文章列表
+     */
+    @PostMapping("/queryAllList")
+    JSONResult queryArticlesByStatus(@RequestParam(required = false) Integer status,
+                                     @RequestParam(required = false) Integer page,
+                                     @RequestParam(required = false) Integer pageSize);
+
+    /**
+     * 管理员人工审核文章（通过或失败）
+     */
+    @PostMapping("/doReview")
+    JSONResult manualReview(@RequestParam String articleId, @RequestParam Integer passOrNot);
+
+    /**
+     * 用户删除文章
+     */
+    @PostMapping("/delete")
+    JSONResult delete(@RequestParam String userId, @RequestParam String articleId);
+
+    /**
+     * 用户撤回文章
+     */
+    @PostMapping("/withdraw")
+    JSONResult withdraw(@RequestParam String userId, @RequestParam String articleId);
 }

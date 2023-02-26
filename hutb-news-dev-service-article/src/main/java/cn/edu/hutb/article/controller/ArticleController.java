@@ -6,6 +6,8 @@ import cn.edu.hutb.article.service.ArticleService;
 import cn.edu.hutb.constant.PageConsts;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.enums.ArticleCoverType;
+import cn.edu.hutb.enums.ArticleReviewStatus;
+import cn.edu.hutb.enums.YesOrNo;
 import cn.edu.hutb.pojo.Category;
 import cn.edu.hutb.pojo.bo.NewArticleBO;
 import cn.edu.hutb.result.JSONResult;
@@ -77,5 +79,42 @@ public class ArticleController extends BaseController
         return JSONResult.ok(articleService.listMyArticleByCondition(userId, keyword, status, startDate, endDate,
                 (page == null) ? PageConsts.DEFAULT_START_PAGE : page,
                 (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
+    }
+
+    @Override
+    public JSONResult queryArticlesByStatus(Integer status, Integer page, Integer pageSize) {
+        return JSONResult.ok(articleService.listByStatus(status,
+                (page == null) ? PageConsts.DEFAULT_START_PAGE : page,
+                (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
+    }
+
+    @Override
+    public JSONResult manualReview(String articleId, Integer passOrNot) {
+        Integer pendingStatus;
+        if (YesOrNo.YES.type.equals(passOrNot)) {
+            // 审核成功
+            pendingStatus = ArticleReviewStatus.SUCCESS.type;
+        } else if (YesOrNo.NO.type.equals(passOrNot)) {
+            // 审核失败
+            pendingStatus = ArticleReviewStatus.FAILED.type;
+        } else {
+            return JSONResult.errorCustom(ResponseStatusEnum.ARTICLE_REVIEW_ERROR);
+        }
+
+        // 保存到数据库，更改文章的状态为审核成功或者失败
+        articleService.updateArticleStatus(articleId, pendingStatus);
+        return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult delete(String userId, String articleId) {
+        articleService.deleteArticle(userId, articleId);
+        return JSONResult.ok();
+    }
+
+    @Override
+    public JSONResult withdraw(String userId, String articleId) {
+        articleService.withdrawArticle(userId, articleId);
+        return JSONResult.ok();
     }
 }
