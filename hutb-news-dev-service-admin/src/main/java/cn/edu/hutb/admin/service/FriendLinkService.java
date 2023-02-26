@@ -20,4 +20,9 @@ public interface FriendLinkService {
      * 删除友情链接
      */
     void delete(String id);
+
+    /**
+     * 首页查询友情链接
+     */
+     List<FriendLinkMO> listPortalFriendLink();
 }

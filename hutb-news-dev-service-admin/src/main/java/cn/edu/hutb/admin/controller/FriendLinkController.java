@@ -52,4 +52,9 @@ public class FriendLinkController extends BaseController
         friendLinkService.delete(linkId);
         return JSONResult.ok();
     }
+
+    @Override
+    public JSONResult queryPortalFriendLinkList() {
+        return JSONResult.ok(friendLinkService.listPortalFriendLink());
+    }
 }

@@ -2,6 +2,7 @@ package cn.edu.hutb.admin.service.impl;
 
 import cn.edu.hutb.admin.repository.FriendLinkRepository;
 import cn.edu.hutb.admin.service.FriendLinkService;
+import cn.edu.hutb.enums.YesOrNo;
 import cn.edu.hutb.pojo.mongo.FriendLinkMO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,10 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     @Override
     public void delete(String id) {
         friendLinkRepository.deleteById(id);
+    }
+
+    @Override
+    public List<FriendLinkMO> listPortalFriendLink() {
+        return friendLinkRepository.getAllByIsDelete(YesOrNo.NO.type);
     }
 }

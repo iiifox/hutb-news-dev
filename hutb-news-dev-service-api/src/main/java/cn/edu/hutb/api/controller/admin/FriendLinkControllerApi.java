@@ -3,10 +3,7 @@ package cn.edu.hutb.api.controller.admin;
 import cn.edu.hutb.pojo.bo.SaveOrUpdateFriendLinkBO;
 import cn.edu.hutb.result.JSONResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -35,4 +32,10 @@ public interface FriendLinkControllerApi {
      */
     @PostMapping("/delete")
     JSONResult delete(@RequestParam String linkId);
+
+    /**
+     * 门户端查询友情链接列表
+     */
+    @GetMapping("/portal/list")
+    JSONResult queryPortalFriendLinkList();
 }
