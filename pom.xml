@@ -22,6 +22,7 @@
         <module>hutb-news-dev-service-user</module>
         <module>hutb-new-dev-service-files</module>
         <module>hutb-news-dev-service-admin</module>
+        <module>hutb-news-dev-service-article</module>
     </modules>
 
     <properties>

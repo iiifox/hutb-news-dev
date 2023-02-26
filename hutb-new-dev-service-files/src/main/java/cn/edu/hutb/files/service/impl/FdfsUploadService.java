@@ -25,8 +25,7 @@ public class FdfsUploadService implements UploadService {
 
     @Override
     public String upload(MultipartFile file, String fileExtName) throws IOException {
-        return host + storageClient
-                .uploadFile(file.getInputStream(), file.getSize(), fileExtName, null)
+        return host + storageClient.uploadFile(file.getInputStream(), file.getSize(), fileExtName, null)
                 .getFullPath();
     }
 }

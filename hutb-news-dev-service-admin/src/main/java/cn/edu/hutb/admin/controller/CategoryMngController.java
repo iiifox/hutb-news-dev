@@ -59,6 +59,11 @@ public class CategoryMngController extends BaseController
 
     @Override
     public JSONResult list() {
+        return JSONResult.ok(categoryService.list());
+    }
+
+    @Override
+    public JSONResult userQueryCategoryList() {
         // 先从redis中查询，如果有，则返回；如果没有，则查询数据库库后先放缓存后返回
         String allCategoryJson = redisTemplate.opsForValue().get(RedisConsts.ALL_CATEGORY);
         List<Category> categoryList;

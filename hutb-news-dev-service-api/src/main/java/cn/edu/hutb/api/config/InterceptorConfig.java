@@ -36,10 +36,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // 用户登录校验拦截器
         registry.addInterceptor(userTokenInterceptor())
                 .addPathPatterns("/user/getAccountInfo", "/user/updateUserInfo")
-                .addPathPatterns("/fs/uploadFace");
+                .addPathPatterns("/fs/uploadFace", "/fs/uploadSomeFiles");
         // 用户激活状态检查拦截器
-        // registry.addInterceptor(userActiveInterceptor())
-        //         .addPathPatterns();
+        registry.addInterceptor(userActiveInterceptor())
+                .addPathPatterns("/fs/uploadSomeFiles");
         // admin登录校验拦截器
         registry.addInterceptor(adminTokenInterceptor())
                 .addPathPatterns("/adminMng/adminIsExist", "/adminMng/addNewAdmin", "/adminMng/getAdminList")

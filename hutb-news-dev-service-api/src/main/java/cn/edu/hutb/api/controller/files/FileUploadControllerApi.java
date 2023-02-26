@@ -42,4 +42,10 @@ public interface FileUploadControllerApi {
      */
     @GetMapping("/readFace64InGridFS")
     JSONResult readFace64InGridFS(String faceId);
+
+    /**
+     * 上传多个文件
+     */
+    @PostMapping("/uploadSomeFiles")
+    JSONResult uploadFiles(@RequestParam String userId, MultipartFile[] files) throws Exception;
 }

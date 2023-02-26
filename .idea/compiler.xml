@@ -13,6 +13,7 @@
         <module name="hutb-news-dev-service-admin" />
         <module name="mybatis-generator-database" />
         <module name="hutb-news-dev-service-api" />
+        <module name="hutb-news-dev-service-article" />
         <module name="hutb-new-dev-common" />
       </profile>
     </annotationProcessing>

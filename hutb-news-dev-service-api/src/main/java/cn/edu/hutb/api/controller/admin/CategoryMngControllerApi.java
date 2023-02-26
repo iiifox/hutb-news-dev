@@ -3,6 +3,7 @@ package cn.edu.hutb.api.controller.admin;
 import cn.edu.hutb.pojo.bo.SaveOrUpdateCategoryBO;
 import cn.edu.hutb.result.JSONResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,4 +27,10 @@ public interface CategoryMngControllerApi {
      */
     @PostMapping("/getCatList")
     JSONResult list();
+
+    /**
+     * 用户端查询分类列表
+     */
+    @GetMapping("getCats")
+    JSONResult userQueryCategoryList();
 }

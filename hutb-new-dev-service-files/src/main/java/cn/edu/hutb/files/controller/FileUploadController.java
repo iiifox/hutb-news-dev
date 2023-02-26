@@ -21,6 +21,8 @@ import sun.misc.BASE64Decoder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 田章
@@ -77,6 +79,31 @@ public class FileUploadController implements FileUploadControllerApi {
     @Override
     public JSONResult readFace64InGridFS(String faceId) {
         return JSONResult.ok(FileUtils.fileToBase64(getFaceByFaceId(faceId)));
+    }
+
+    @Override
+    public JSONResult uploadFiles(String userId, MultipartFile[] files) throws Exception {
+        // 声明list，用于存放多个图片的地址路径，返回到前端
+        List<String> imageUrlList = new ArrayList<>();
+        if (files != null) {
+            for (MultipartFile file : files) {
+                if (file != null) {
+                    // 获得文件上传的名称
+                    String filename = file.getOriginalFilename();
+                    // 判断文件名不能为空
+                    if (StringUtils.isNotBlank(filename)) {
+                        // 获取文件后缀名，并进行判断
+                        String fileExtName = filename.substring(filename.lastIndexOf('.') + 1);
+                        if ("jpg".equalsIgnoreCase(fileExtName) || "jpeg".equalsIgnoreCase(fileExtName)
+                                || "png".equalsIgnoreCase(fileExtName)) {
+                            // 执行上传
+                            imageUrlList.add(fdfsUploadService.upload(file, fileExtName));
+                        }
+                    }
+                }
+            }
+        }
+        return JSONResult.ok(imageUrlList);
     }
 
     /**
