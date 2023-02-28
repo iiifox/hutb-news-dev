@@ -36,7 +36,7 @@ public class ArticlePortalController implements ArticlePortalControllerApi {
     @Override
     public JSONResult list(String keyword, Integer category, Integer page, Integer pageSize) {
         PageResult pageResult = articlePortalService.listIndexArticle(keyword, category,
-                (page == null) ? PageConsts.DEFAULT_START_PAGE : page,
+                (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
                 (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize);
         return JSONResult.ok(rebuildArticle(pageResult));
     }
@@ -44,6 +44,18 @@ public class ArticlePortalController implements ArticlePortalControllerApi {
     @Override
     public JSONResult hotList() {
         return JSONResult.ok(articlePortalService.listHot());
+    }
+
+    @Override
+    public JSONResult queryArticleListOfWriter(String writerId, Integer page, Integer pageSize) {
+        return JSONResult.ok(rebuildArticle(articlePortalService.queryArticleListOfWriter(writerId,
+                (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
+                (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize)));
+    }
+
+    @Override
+    public JSONResult queryGoodArticleListOfWriter(String writerId) {
+        return JSONResult.ok(articlePortalService.queryGoodArticleListOfWriter(writerId));
     }
 
     private PageResult rebuildArticle(PageResult result) {

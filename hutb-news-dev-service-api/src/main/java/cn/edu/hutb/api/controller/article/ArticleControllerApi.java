@@ -27,18 +27,31 @@ public interface ArticleControllerApi {
 
     /**
      * 根据条件查询用户的文章列表
+     *
+     * @param keyword   查询关键字
+     * @param status    文章状态
+     * @param startDate 按文章发布时间查 --> 开始日期
+     * @param endDate   按文章发布时间查 --> 截至日期
+     * @param page      展示的第几页
+     * @param pageSize  每页数据条数
+     * @return 分页返回
      */
     @PostMapping("/queryMyList")
-    JSONResult queryMyArticleByCondition(@RequestParam String userId,
-                                         @RequestParam(required = false) String keyword,
-                                         @RequestParam(required = false) Integer status,
-                                         @RequestParam(required = false) Date startDate,
-                                         @RequestParam(required = false) Date endDate,
-                                         @RequestParam(required = false) Integer page,
-                                         @RequestParam(required = false) Integer pageSize);
+    JSONResult queryMyArticlesByCondition(@RequestParam String userId,
+                                          @RequestParam(required = false) String keyword,
+                                          @RequestParam(required = false) Integer status,
+                                          @RequestParam(required = false) Date startDate,
+                                          @RequestParam(required = false) Date endDate,
+                                          @RequestParam(required = false) Integer page,
+                                          @RequestParam(required = false) Integer pageSize);
 
     /**
      * 管理员查询用户的所有文章列表
+     *
+     * @param status   文章状态
+     * @param page     展示的第几页
+     * @param pageSize 每页数据条数
+     * @return 分页返回
      */
     @PostMapping("/queryAllList")
     JSONResult queryArticlesByStatus(@RequestParam(required = false) Integer status,
@@ -47,18 +60,27 @@ public interface ArticleControllerApi {
 
     /**
      * 管理员人工审核文章（通过或失败）
+     *
+     * @param articleId 文章id
+     * @param passOrNot 0:审核失败 1:审核成功
      */
     @PostMapping("/doReview")
     JSONResult manualReview(@RequestParam String articleId, @RequestParam Integer passOrNot);
 
     /**
      * 用户删除文章
+     *
+     * @param userId    用户id
+     * @param articleId 文章id
      */
     @PostMapping("/delete")
     JSONResult delete(@RequestParam String userId, @RequestParam String articleId);
 
     /**
      * 用户撤回文章
+     *
+     * @param userId    用户id
+     * @param articleId 文章id
      */
     @PostMapping("/withdraw")
     JSONResult withdraw(@RequestParam String userId, @RequestParam String articleId);

@@ -16,7 +16,10 @@ import javax.validation.Valid;
 public interface UserControllerApi {
 
     /**
-     * 获取用户信息
+     * 获取用户信息(页面展示的详细信息，可供修改)
+     *
+     * @param userId 用户id
+     * @return 用户详细信息
      */
     @PostMapping("/getAccountInfo")
     JSONResult getAccountInfo(@RequestParam String userId);
@@ -28,13 +31,19 @@ public interface UserControllerApi {
     JSONResult updateUserInfo(@RequestBody @Valid UpdateUserInfoBO bo, BindingResult result);
 
     /**
-     * 获取用户基本信息
+     * 获取用户基本信息（仅页面显示使用）
+     *
+     * @param userId 用户id
+     * @return 用户简单基本信息
      */
     @PostMapping("/getUserInfo")
-    JSONResult getUserBasicInfo(@RequestParam String userId);
+    JSONResult getUserSimpleInfo(@RequestParam String userId);
 
     /**
-     * 根据用户的ids查询用户列表
+     * 根据用户的ids查询用户列表（该接口仅供后端调用）
+     *
+     * @param userIds json格式的用户id列表
+     * @return 用户基本简单信息列表
      */
     @GetMapping("/queryByIds")
     JSONResult queryByIds(@RequestParam String userIds);

@@ -19,18 +19,24 @@ public interface PassportControllerApi {
 
     /**
      * 获取短信验证码
+     *
+     * @param mobile 手机号
      */
     @GetMapping("/getSMSCode")
     JSONResult getSmsCode(@RequestParam String mobile, HttpServletRequest request);
 
     /**
      * 一键 注册/登录
+     *
+     * @return 用户激活状态 activeStatus
      */
     @PostMapping("/doLogin")
     JSONResult registerLogin(@RequestBody @Valid RegisterLoginBO bo, BindingResult result, HttpServletResponse response);
 
     /**
      * 用户退出登录
+     *
+     * @param userId 用户id
      */
     @PostMapping("/logout")
     JSONResult logout(@RequestParam String userId, HttpServletResponse response);

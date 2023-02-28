@@ -11,7 +11,7 @@ public final class PageConsts {
     /**
      * 默认起始页
      */
-    public static final int DEFAULT_START_PAGE = 1;
+    public static final int DEFAULT_PAGE_NUM = 1;
 
     /**
      * 默认页面显示条目数

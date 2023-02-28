@@ -24,13 +24,17 @@ public interface CategoryMngControllerApi {
 
     /**
      * 查询文章分类列表
+     *
+     * @return 文章分类列表
      */
     @PostMapping("/getCatList")
     JSONResult list();
 
     /**
-     * 用户端查询分类列表
+     * 用户端查询分类列表（该方法返回与list方法一样，不同的是，用户查询分类列表会使用缓存）
+     *
+     * @return 文章分类列表
      */
-    @GetMapping("getCats")
+    @GetMapping("/getCats")
     JSONResult userQueryCategoryList();
 }

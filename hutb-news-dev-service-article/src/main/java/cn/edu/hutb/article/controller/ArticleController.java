@@ -69,22 +69,22 @@ public class ArticleController extends BaseController
     }
 
     @Override
-    public JSONResult queryMyArticleByCondition(String userId,
-                                                String keyword,
-                                                Integer status,
-                                                Date startDate,
-                                                Date endDate,
-                                                Integer page,
-                                                Integer pageSize) {
+    public JSONResult queryMyArticlesByCondition(String userId,
+                                                 String keyword,
+                                                 Integer status,
+                                                 Date startDate,
+                                                 Date endDate,
+                                                 Integer page,
+                                                 Integer pageSize) {
         return JSONResult.ok(articleService.listMyArticleByCondition(userId, keyword, status, startDate, endDate,
-                (page == null) ? PageConsts.DEFAULT_START_PAGE : page,
+                (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
                 (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
     }
 
     @Override
     public JSONResult queryArticlesByStatus(Integer status, Integer page, Integer pageSize) {
         return JSONResult.ok(articleService.listByStatus(status,
-                (page == null) ? PageConsts.DEFAULT_START_PAGE : page,
+                (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
                 (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
     }
 

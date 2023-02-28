@@ -44,13 +44,9 @@ public class UserController extends BaseController
         if (StringUtils.isBlank(userId)) {
             return JSONResult.errorCustom(ResponseStatusEnum.UN_LOGIN);
         }
-
-        // 根据用户userId查询用户信息
-        AppUser user = getUser(userId);
-
         // 返回用户信息
         UserAccountInfoVO infoVO = new UserAccountInfoVO();
-        BeanUtils.copyProperties(user, infoVO);
+        BeanUtils.copyProperties(getUser(userId), infoVO);
         return JSONResult.ok(infoVO);
     }
 
@@ -60,19 +56,17 @@ public class UserController extends BaseController
         if (result.hasErrors()) {
             return JSONResult.errorMap(getErrors(result));
         }
-
         // 执行更新操作
         userService.updateUserInfo(bo);
         return JSONResult.ok();
     }
 
     @Override
-    public JSONResult getUserBasicInfo(String userId) {
+    public JSONResult getUserSimpleInfo(String userId) {
         // 判断参数不能为空
         if (StringUtils.isBlank(userId)) {
             return JSONResult.errorCustom(ResponseStatusEnum.UN_LOGIN);
         }
-
         return JSONResult.ok(getBasicUserInfo(userId));
     }
 

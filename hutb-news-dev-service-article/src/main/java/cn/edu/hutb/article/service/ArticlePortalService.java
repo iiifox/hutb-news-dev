@@ -21,4 +21,14 @@ public interface ArticlePortalService {
      * 首页查询热闻列表
      */
     List<Article> listHot();
+
+    /**
+     * 查询作家发布的所有文章列表
+     */
+    PageResult queryArticleListOfWriter(String writerId, Integer page, Integer pageSize);
+
+    /**
+     * 作家页面查询近期佳文
+     */
+    PageResult queryGoodArticleListOfWriter(String writerId);
 }

@@ -26,6 +26,8 @@ public interface AdminMngControllerApi {
 
     /**
      * 校验admin登录名唯一
+     *
+     * @param username 管理人员username
      */
     @PostMapping("/adminIsExist")
     JSONResult checkAdminUnique(@RequestParam String username);
@@ -38,6 +40,10 @@ public interface AdminMngControllerApi {
 
     /**
      * 查询admin用户列表
+     *
+     * @param page     展示的第几页
+     * @param pageSize 每页数据条数
+     * @return 分页返回
      */
     @PostMapping("getAdminList")
     JSONResult getAdminList(@RequestParam(required = false) Integer page,
@@ -45,6 +51,8 @@ public interface AdminMngControllerApi {
 
     /**
      * admin用户退出登录
+     *
+     * @param adminId 管理员id
      */
     @PostMapping("/adminLogout")
     JSONResult logout(@RequestParam String adminId, HttpServletResponse response);

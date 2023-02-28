@@ -95,7 +95,7 @@ public class AdminMngController extends BaseController
     @Override
     public JSONResult getAdminList(Integer page, Integer pageSize) {
         // 为空，赋默认值
-        page = (page == null) ? PageConsts.DEFAULT_START_PAGE : page;
+        page = (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page;
         pageSize = (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize;
         return JSONResult.ok(adminUserService.listAdmin(page, pageSize));
     }

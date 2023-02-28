@@ -12,7 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ArticlePortalControllerApi {
 
     /**
-     * 首页查询文章列表
+     * 首页根据条件查询文章列表
+     *
+     * @param keyword  查询关键字
+     * @param category 文章类型
+     * @param page     展示的第几页
+     * @param pageSize 每页数据条数
+     * @return 分页返回
      */
     @GetMapping("/list")
     JSONResult list(@RequestParam(required = false) String keyword,
@@ -23,7 +29,30 @@ public interface ArticlePortalControllerApi {
 
     /**
      * 首页查询热闻列表
+     *
+     * @return 分页返回近期热文
      */
     @GetMapping("/hotList")
     JSONResult hotList();
+
+    /**
+     * 查询作家发布的所有文章列表
+     *
+     * @param writerId 作家id
+     * @param page     展示的第几页
+     * @param pageSize 每页数据条数
+     * @return 分页返回
+     */
+    @GetMapping("/queryArticleListOfWriter")
+    JSONResult queryArticleListOfWriter(@RequestParam String writerId,
+                                        @RequestParam(required = false) Integer page,
+                                        @RequestParam(required = false) Integer pageSize);
+
+    /**
+     * 作家页面查询近期佳文
+     *
+     * @param writerId 作家id
+     */
+    @GetMapping("/queryGoodArticleListOfWriter")
+    JSONResult queryGoodArticleListOfWriter(@RequestParam String writerId);
 }

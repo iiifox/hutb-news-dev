@@ -22,19 +22,24 @@ public interface FriendLinkControllerApi {
     JSONResult saveOrUpdate(@RequestBody @Valid SaveOrUpdateFriendLinkBO bo, BindingResult result);
 
     /**
-     * 查询友情链接列表
+     * 管理员端查询友情链接列表（包含isDelete为true的友情链接）
+     *
+     * @return 友情链接列表
      */
     @PostMapping("/getFriendLinkList")
     JSONResult list();
 
     /**
      * 删除友情链接
+     *
+     * @param linkId 友情链接id
      */
     @PostMapping("/delete")
     JSONResult delete(@RequestParam String linkId);
 
     /**
-     * 门户端查询友情链接列表
+     * 门户端查询友情链接列表（不包含isDelete为true的友情链接）
+     * @return 友情链接列表
      */
     @GetMapping("/portal/list")
     JSONResult queryPortalFriendLinkList();

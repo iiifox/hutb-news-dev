@@ -50,6 +50,20 @@ public class ArticlePortalServiceImpl implements ArticlePortalService {
         return articleMapper.selectByExample(articleExample);
     }
 
+    @Override
+    public PageResult queryArticleListOfWriter(String writerId, Integer page, Integer pageSize) {
+        Example articleExample = new Example(Article.class);
+        getDefaultArticleCriteria(articleExample).andEqualTo("publishUserId", writerId);
+
+        PageHelper.startPage(page, pageSize);
+        return PageUtils.setterPage(articleMapper.selectByExample(articleExample), page);
+    }
+
+    @Override
+    public PageResult queryGoodArticleListOfWriter(String writerId) {
+        return queryArticleListOfWriter(writerId, 1, 5);
+    }
+
     private Example.Criteria getDefaultArticleCriteria(Example articleExample) {
         articleExample.orderBy("publishTime").desc();
         // 查询首页文章的自带隐性查询条件：已发布 + 未删除 + 审核通过
