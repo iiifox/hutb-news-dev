@@ -14,7 +14,7 @@
        通用工程
        包含了一些工具类，枚举类，封装的一些公共方法以及一些第三方组件等
     -->
-    <artifactId>hutb-new-dev-common</artifactId>
+    <artifactId>hutb-news-dev-common</artifactId>
 
     <dependencies>
         <dependency>

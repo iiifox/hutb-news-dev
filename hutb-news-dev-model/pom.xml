@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.edu.hutb</groupId>
-            <artifactId>hutb-new-dev-common</artifactId>
+            <artifactId>hutb-news-dev-common</artifactId>
         </dependency>
 
         <!-- MySQL数据库 -->

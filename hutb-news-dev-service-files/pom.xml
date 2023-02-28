@@ -12,7 +12,7 @@
     <!--
         文件服务：文件上传、文件下载等
      -->
-    <artifactId>hutb-new-dev-service-files</artifactId>
+    <artifactId>hutb-news-dev-service-files</artifactId>
 
     <dependencies>
         <dependency>

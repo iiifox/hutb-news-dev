@@ -8,13 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="hutb-news-dev-model" />
-        <module name="hutb-new-dev-service-files" />
         <module name="hutb-news-dev-service-user" />
+        <module name="hutb-news-dev-service-files" />
         <module name="hutb-news-dev-service-admin" />
         <module name="mybatis-generator-database" />
         <module name="hutb-news-dev-service-api" />
         <module name="hutb-news-dev-service-article" />
-        <module name="hutb-new-dev-common" />
+        <module name="hutb-news-dev-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />

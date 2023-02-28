@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 import wiremock.org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -71,13 +73,20 @@ public class UserController extends BaseController
             return JSONResult.errorCustom(ResponseStatusEnum.UN_LOGIN);
         }
 
-        // 根据用户userId查询用户信息
-        AppUser user = getUser(userId);
+        return JSONResult.ok(getBasicUserInfo(userId));
+    }
 
-        // 返回用户基本信息
-        AppUserVO infoVO = new AppUserVO();
-        BeanUtils.copyProperties(user, infoVO);
-        return JSONResult.ok(infoVO);
+    @Override
+    public JSONResult queryByIds(String userIds) {
+        if (StringUtils.isBlank(userIds)) {
+            return JSONResult.errorCustom(ResponseStatusEnum.USER_NOT_EXIST_ERROR);
+        }
+
+        final List<AppUserVO> publisherList = new ArrayList<>();
+        Objects.requireNonNull(JsonUtils.jsonToList(userIds, String.class)).forEach(id -> {
+            publisherList.add(getBasicUserInfo(id));
+        });
+        return JSONResult.ok(publisherList);
     }
 
     /**
@@ -96,5 +105,11 @@ public class UserController extends BaseController
                     Objects.requireNonNull(JsonUtils.objectToJson(user)), 30, TimeUnit.DAYS);
             return user;
         }
+    }
+
+    private AppUserVO getBasicUserInfo(String userId) {
+        AppUserVO userVO = new AppUserVO();
+        BeanUtils.copyProperties(getUser(userId), userVO);
+        return userVO;
     }
 }

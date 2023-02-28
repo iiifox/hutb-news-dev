@@ -3,10 +3,7 @@ package cn.edu.hutb.api.controller.user;
 import cn.edu.hutb.pojo.bo.UpdateUserInfoBO;
 import cn.edu.hutb.result.JSONResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -35,4 +32,10 @@ public interface UserControllerApi {
      */
     @PostMapping("/getUserInfo")
     JSONResult getUserBasicInfo(@RequestParam String userId);
+
+    /**
+     * 根据用户的ids查询用户列表
+     */
+    @GetMapping("/queryByIds")
+    JSONResult queryByIds(@RequestParam String userIds);
 }

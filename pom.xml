@@ -16,11 +16,11 @@
     -->
     <packaging>pom</packaging>
     <modules>
-        <module>hutb-new-dev-common</module>
+        <module>hutb-news-dev-common</module>
         <module>hutb-news-dev-model</module>
         <module>hutb-news-dev-service-api</module>
         <module>hutb-news-dev-service-user</module>
-        <module>hutb-new-dev-service-files</module>
+        <module>hutb-news-dev-service-files</module>
         <module>hutb-news-dev-service-admin</module>
         <module>hutb-news-dev-service-article</module>
     </modules>
@@ -66,7 +66,7 @@
             <!-- 子模块版本管理 -->
             <dependency>
                 <groupId>cn.edu.hutb</groupId>
-                <artifactId>hutb-new-dev-common</artifactId>
+                <artifactId>hutb-news-dev-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
