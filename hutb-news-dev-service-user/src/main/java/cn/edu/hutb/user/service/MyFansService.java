@@ -29,9 +29,9 @@ public interface MyFansService {
     void unfollow(String writerId, String fanId);
 
     /**
-     * 查询我的粉丝数
+     * 查询我的粉丝列表
      */
-    PageResult queryMyFansList(String writerId, Integer page, Integer pageSize);
+    PageResult listFans(String writerId, int page, int pageSize);
 
     /**
      * 查询粉丝数

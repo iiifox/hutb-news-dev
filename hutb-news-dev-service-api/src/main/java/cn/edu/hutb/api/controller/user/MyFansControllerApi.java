@@ -60,7 +60,7 @@ public interface MyFansControllerApi {
      * 查询男女粉丝数量
      *
      * @param writerId 作家id
-     * @return
+     * @return {@link cn.edu.hutb.pojo.vo.FansCountsVO}
      */
     @PostMapping("/queryRatio")
     JSONResult queryRatio(@RequestParam String writerId);
@@ -68,8 +68,8 @@ public interface MyFansControllerApi {
     /**
      * 根据地域查询粉丝数量
      *
-     * @param writerId
-     * @return
+     * @param writerId 作家id
+     * @return {@link cn.edu.hutb.pojo.vo.RegionRatioVO}
      */
     @PostMapping("/queryRatioByRegion")
     JSONResult queryRatioByRegion(@RequestParam String writerId);

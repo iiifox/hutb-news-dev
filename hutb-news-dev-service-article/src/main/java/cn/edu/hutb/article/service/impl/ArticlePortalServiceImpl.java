@@ -27,7 +27,7 @@ public class ArticlePortalServiceImpl implements ArticlePortalService {
     private ArticleMapper articleMapper;
 
     @Override
-    public PageResult listIndexArticle(String keyword, Integer category, Integer page, Integer pageSize) {
+    public PageResult listIndexArticle(String keyword, Integer category, int page, int pageSize) {
         Example articleExample = new Example(Article.class);
         Example.Criteria criteria = getDefaultArticleCriteria(articleExample);
         if (StringUtils.isNotBlank(keyword)) {
@@ -51,7 +51,7 @@ public class ArticlePortalServiceImpl implements ArticlePortalService {
     }
 
     @Override
-    public PageResult queryArticleListOfWriter(String writerId, Integer page, Integer pageSize) {
+    public PageResult queryArticleListOfWriter(String writerId, int page, int pageSize) {
         Example articleExample = new Example(Article.class);
         getDefaultArticleCriteria(articleExample).andEqualTo("publishUserId", writerId);
 

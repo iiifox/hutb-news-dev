@@ -1,6 +1,9 @@
 package cn.edu.hutb.user.controller;
 
 import cn.edu.hutb.api.controller.user.MyFansControllerApi;
+import cn.edu.hutb.constant.PageConsts;
+import cn.edu.hutb.enums.Sex;
+import cn.edu.hutb.pojo.vo.FansCountsVO;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.user.service.MyFansService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +39,21 @@ public class MyFansController implements MyFansControllerApi {
 
     @Override
     public JSONResult queryAll(String writerId, Integer page, Integer pageSize) {
-        return null;
+        return JSONResult.ok(myFansService.listFans(writerId,
+                (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
+                (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
     }
 
     @Override
     public JSONResult queryRatio(String writerId) {
-        return null;
+        FansCountsVO fansCountsVO = new FansCountsVO();
+        fansCountsVO.setManCounts(myFansService.queryFansCounts(writerId, Sex.MAN));
+        fansCountsVO.setWomanCounts(myFansService.queryFansCounts(writerId, Sex.WOMAN));
+        return JSONResult.ok(fansCountsVO);
     }
 
     @Override
     public JSONResult queryRatioByRegion(String writerId) {
-        return null;
+       return JSONResult.ok(myFansService.queryRegionRatioCounts(writerId));
     }
 }

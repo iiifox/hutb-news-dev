@@ -1,6 +1,7 @@
 package cn.edu.hutb.user.service.impl;
 
 import cn.edu.hutb.api.page.PageResult;
+import cn.edu.hutb.api.page.PageUtils;
 import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.enums.Sex;
 import cn.edu.hutb.pojo.AppUser;
@@ -9,6 +10,7 @@ import cn.edu.hutb.pojo.vo.RegionRatioVO;
 import cn.edu.hutb.user.mapper.FansMapper;
 import cn.edu.hutb.user.service.MyFansService;
 import cn.edu.hutb.user.service.UserService;
+import com.github.pagehelper.PageHelper;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +40,11 @@ public class MyFansServiceImpl implements MyFansService {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    private static final String[] REGIONS = {"北京", "天津", "上海", "重庆",
+            "河北", "山西", "辽宁", "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西",
+            "山东", "河南", "湖北", "湖南", "广东", "海南", "四川", "贵州", "云南", "陕西",
+            "甘肃", "青海", "台湾", "内蒙古", "广西", "西藏", "宁夏", "新疆", "香港", "澳门"};
 
     @Override
     public boolean isMeFollowThisWriter(String writerId, String fanId) {
@@ -86,17 +94,34 @@ public class MyFansServiceImpl implements MyFansService {
     }
 
     @Override
-    public PageResult queryMyFansList(String writerId, Integer page, Integer pageSize) {
-        return null;
+    public PageResult listFans(String writerId, int page, int pageSize) {
+        Fans fans = new Fans();
+        fans.setWriterId(writerId);
+        PageHelper.startPage(page, pageSize);
+        return PageUtils.setterPage(fansMapper.select(fans), page);
     }
 
     @Override
     public Integer queryFansCounts(String writerId, Sex sex) {
-        return null;
+        Fans fans = new Fans();
+        fans.setWriterId(writerId);
+        fans.setSex(sex.type);
+        return fansMapper.selectCount(fans);
     }
 
     @Override
     public List<RegionRatioVO> queryRegionRatioCounts(String writerId) {
-        return null;
+        Fans fans = new Fans();
+        fans.setWriterId(writerId);
+
+        List<RegionRatioVO> list = new ArrayList<>();
+        for (String region : REGIONS) {
+            RegionRatioVO regionRatioVO = new RegionRatioVO();
+            regionRatioVO.setName(region);
+            fans.setProvince(region);
+            regionRatioVO.setValue(fansMapper.selectCount(fans));
+            list.add(regionRatioVO);
+        }
+        return list;
     }
 }

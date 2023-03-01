@@ -15,7 +15,7 @@ public interface ArticlePortalService {
     /**
      * 首页查询文章列表
      */
-    PageResult listIndexArticle(String keyword, Integer category, Integer page, Integer pageSize);
+    PageResult listIndexArticle(String keyword, Integer category, int page, int pageSize);
 
     /**
      * 首页查询热闻列表
@@ -25,7 +25,7 @@ public interface ArticlePortalService {
     /**
      * 查询作家发布的所有文章列表
      */
-    PageResult queryArticleListOfWriter(String writerId, Integer page, Integer pageSize);
+    PageResult queryArticleListOfWriter(String writerId, int page, int pageSize);
 
     /**
      * 作家页面查询近期佳文

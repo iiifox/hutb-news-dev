@@ -95,8 +95,8 @@ public class ArticleServiceImpl implements ArticleService {
                                                Integer status,
                                                Date startDate,
                                                Date endDate,
-                                               Integer page,
-                                               Integer pageSize) {
+                                               int page,
+                                               int pageSize) {
         Example example = new Example(Article.class);
         // 排序规则
         example.orderBy("createTime").desc();
@@ -145,7 +145,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageResult listByStatus(Integer status, Integer page, Integer pageSize) {
+    public PageResult listByStatus(Integer status, int page, int pageSize) {
         Example articleExample = new Example(Article.class);
         articleExample.orderBy("createTime").desc();
 

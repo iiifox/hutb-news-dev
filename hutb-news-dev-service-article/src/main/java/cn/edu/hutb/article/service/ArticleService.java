@@ -31,8 +31,8 @@ public interface ArticleService {
                                         Integer status,
                                         Date startDate,
                                         Date endDate,
-                                        Integer page,
-                                        Integer pageSize);
+                                        int page,
+                                        int pageSize);
 
     /**
      * 更改文章审核状态
@@ -42,7 +42,7 @@ public interface ArticleService {
     /**
      * 管理员查询文章列表
      */
-    PageResult listByStatus(Integer status, Integer page, Integer pageSize);
+    PageResult listByStatus(Integer status, int page, int pageSize);
 
 
     /**
