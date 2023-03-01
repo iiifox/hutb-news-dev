@@ -29,4 +29,14 @@ public class RedisConsts {
     public static final String ADMIN_TOKEN_FORMATTER = "admin:token:%s";
 
     public static final String ALL_CATEGORY = "all:category";
+
+    /**
+     * 作家粉丝数（拼接作家id）
+     */
+    public static final String FAN_COUNT_FORMATTER = "fan:count:%s";
+
+    /**
+     * 粉丝(我)的关注数（拼接粉丝id）
+     */
+    public static final String FOLLOW_COUNT_FORMATTER = "follow:count:%s";
 }

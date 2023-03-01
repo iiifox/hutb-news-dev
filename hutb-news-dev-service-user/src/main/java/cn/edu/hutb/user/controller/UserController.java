@@ -104,6 +104,11 @@ public class UserController extends BaseController
     private AppUserVO getBasicUserInfo(String userId) {
         AppUserVO userVO = new AppUserVO();
         BeanUtils.copyProperties(getUser(userId), userVO);
+        // 查询 Redis 中的关注数与粉丝数，放入 userVO 到前端渲染
+        String redisFollows = redisTemplate.opsForValue().get(String.format(RedisConsts.FOLLOW_COUNT_FORMATTER, userId));
+        userVO.setMyFollowCounts((redisFollows == null) ? 0 : Integer.parseInt(redisFollows));
+        String redisFans = redisTemplate.opsForValue().get(String.format(RedisConsts.FAN_COUNT_FORMATTER, userId));
+        userVO.setMyFansCounts((redisFans == null) ? 0 : Integer.parseInt(redisFans));
         return userVO;
     }
 }
