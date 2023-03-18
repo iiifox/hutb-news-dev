@@ -12,7 +12,6 @@ import cn.edu.hutb.result.CustomException;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.result.ResponseStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -33,9 +32,6 @@ public class AdminMngController extends BaseController
 
     @Autowired
     private AdminUserService adminUserService;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private RestTemplate restTemplate;

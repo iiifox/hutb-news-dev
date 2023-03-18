@@ -12,7 +12,6 @@ import cn.edu.hutb.result.ResponseStatusEnum;
 import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +24,6 @@ public class CategoryMngController extends BaseController
 
     @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
     @Override
     public JSONResult saveOrUpdate(SaveOrUpdateCategoryBO bo, BindingResult result) {

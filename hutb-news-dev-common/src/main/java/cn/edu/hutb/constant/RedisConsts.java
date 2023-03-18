@@ -39,4 +39,14 @@ public class RedisConsts {
      * 粉丝(我)的关注数（拼接粉丝id）
      */
     public static final String FOLLOW_COUNT_FORMATTER = "follow:count:%s";
+
+    /**
+     * 文章阅读数（拼接文章id）
+     */
+    public static final String ARTICLE_READ_COUNTS_FORMATTER = "article:count:%s";
+
+    /**
+     * 文章已经阅读过（拼接文章id和ip两个参数）
+     */
+    public static final String ARTICLE_ALREADY_READ_FORMATTER = "article:read:%s:%s";
 }

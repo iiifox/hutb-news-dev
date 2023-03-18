@@ -10,7 +10,7 @@ import wiremock.org.apache.commons.lang3.StringUtils;
 public class BaseInterceptor {
 
     @Autowired
-    public StringRedisTemplate redisTemplate;
+    protected StringRedisTemplate redisTemplate;
 
     public void verifyToken(String id, String token, String redisKey) {
         String redisToken = redisTemplate.opsForValue().get(String.format(redisKey, id));

@@ -1,6 +1,8 @@
 package cn.edu.hutb.api.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -22,6 +24,9 @@ public class BaseController {
     @Value("${cn.edu.hutb.website.domain}")
     private String domain;
 
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
+
     /**
      * 获取BindingResult中的错误信息
      */
@@ -32,6 +37,14 @@ public class BaseController {
             map.put(error.getField(), error.getDefaultMessage());
         }
         return map;
+    }
+
+    protected Integer getCountsFromRedis(String key) {
+        String countsStr = redisTemplate.opsForValue().get(key);
+        if (countsStr == null) {
+            return 0;
+        }
+        return Integer.valueOf(countsStr);
     }
 
     protected void setCookieSevenDays(HttpServletResponse response, String cookieName, String cookieValue) {

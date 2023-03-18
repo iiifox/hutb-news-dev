@@ -2,6 +2,7 @@ package cn.edu.hutb.article.service;
 
 import cn.edu.hutb.api.page.PageResult;
 import cn.edu.hutb.pojo.Article;
+import cn.edu.hutb.pojo.vo.ArticleDetailVO;
 
 import java.util.List;
 
@@ -31,4 +32,9 @@ public interface ArticlePortalService {
      * 作家页面查询近期佳文
      */
     PageResult queryGoodArticleListOfWriter(String writerId);
+
+    /**
+     * 查询文章详情页
+     */
+    ArticleDetailVO getDetail(String articleId);
 }

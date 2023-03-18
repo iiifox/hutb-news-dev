@@ -15,7 +15,6 @@ import cn.edu.hutb.result.ResponseStatusEnum;
 import cn.edu.hutb.util.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,9 +29,6 @@ import java.util.Objects;
 @RestController
 public class ArticleController extends BaseController
         implements ArticleControllerApi {
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private ArticleService articleService;

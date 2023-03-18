@@ -1,19 +1,24 @@
 package cn.edu.hutb.article.controller;
 
+import cn.edu.hutb.api.controller.BaseController;
 import cn.edu.hutb.api.controller.article.ArticlePortalControllerApi;
 import cn.edu.hutb.api.page.PageResult;
 import cn.edu.hutb.article.service.ArticlePortalService;
 import cn.edu.hutb.constant.PageConsts;
+import cn.edu.hutb.constant.RedisConsts;
 import cn.edu.hutb.pojo.Article;
 import cn.edu.hutb.pojo.vo.AppUserVO;
+import cn.edu.hutb.pojo.vo.ArticleDetailVO;
 import cn.edu.hutb.pojo.vo.IndexArticleVO;
 import cn.edu.hutb.result.JSONResult;
+import cn.edu.hutb.util.IpUtils;
 import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +30,8 @@ import java.util.Set;
  * @date 2023/2/26
  */
 @RestController
-public class ArticlePortalController implements ArticlePortalControllerApi {
+public class ArticlePortalController extends BaseController
+        implements ArticlePortalControllerApi {
 
     @Autowired
     private ArticlePortalService articlePortalService;
@@ -58,27 +64,59 @@ public class ArticlePortalController implements ArticlePortalControllerApi {
         return JSONResult.ok(articlePortalService.queryGoodArticleListOfWriter(writerId));
     }
 
+    @Override
+    public JSONResult detail(String articleId) {
+        ArticleDetailVO detailVO = articlePortalService.getDetail(articleId);
+
+        HashSet<String> idSet = new HashSet<>();
+        idSet.add(detailVO.getPublishUserId());
+        List<AppUserVO> publisherList = getPublisherList(idSet);
+        if (!publisherList.isEmpty()) {
+            detailVO.setPublishUserName(publisherList.get(0).getNickname());
+        }
+        detailVO.setReadCounts(getCountsFromRedis(String.format(RedisConsts.ARTICLE_READ_COUNTS_FORMATTER, articleId)));
+
+        return JSONResult.ok(detailVO);
+    }
+
+    @Override
+    public JSONResult readArticle(String articleId, HttpServletRequest request) {
+        // 设置针对当前用户ip的永久存在的key，存入redis，表示该ip的用户已经阅读过了，无法累加阅读量
+        String remoteIp = IpUtils.getRemoteIp(request);
+        redisTemplate.opsForValue().set(String.format(RedisConsts.ARTICLE_ALREADY_READ_FORMATTER, articleId, remoteIp), "y");
+        redisTemplate.opsForValue().increment(String.format(RedisConsts.ARTICLE_READ_COUNTS_FORMATTER, articleId), 1);
+        return null;
+    }
+
     private PageResult rebuildArticle(PageResult result) {
         List<Article> articleList = (List<Article>) result.getRows();
 
         // 构建发布者id列表
-        Set<String> idSet = new HashSet<>();
-        List<String> idList = new ArrayList<>();
+        final Set<String> idSet = new HashSet<>();
+        final List<String> idList = new ArrayList<>();
         articleList.forEach(article -> {
             // 构建发布者的set
             idSet.add(article.getPublishUserId());
+            // 构建文章id的list
+            idList.add(String.format(RedisConsts.ARTICLE_READ_COUNTS_FORMATTER, article.getId()));
         });
+        // 发起Redis的mget批量查询api，获取对应的值
+        List<String> readCountsList = redisTemplate.opsForValue().multiGet(idList);
 
         // 发起远程调用（restTemplate），请求用户服务获得用户（idSet 发布者）的列表
         List<AppUserVO> publisherList = getPublisherList(idSet);
 
         // 拼接两个list，重组文章列表
         List<IndexArticleVO> indexArticleList = new ArrayList<>();
-        for (Article article : articleList) {
+        for (int i = 0; i < articleList.size(); i++) {
             IndexArticleVO indexArticleVO = new IndexArticleVO();
+            Article article = articleList.get(i);
             BeanUtils.copyProperties(article, indexArticleVO);
             // 从 publisherList 中获得发布者的基本信息
             indexArticleVO.setPublisherVO(getUserIfPublisher(article.getPublishUserId(), publisherList));
+            // 设置文章的阅读数
+            String readCounts = readCountsList.get(i);
+            indexArticleVO.setReadCounts((readCounts == null) ? 0 : Integer.parseInt(readCounts));
             indexArticleList.add(indexArticleVO);
         }
 

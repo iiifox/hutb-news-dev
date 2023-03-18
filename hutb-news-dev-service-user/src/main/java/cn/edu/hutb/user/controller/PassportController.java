@@ -14,7 +14,6 @@ import cn.edu.hutb.user.service.UserService;
 import cn.edu.hutb.util.IpUtils;
 import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,9 +35,6 @@ public class PassportController extends BaseController
 
     @Autowired
     private AliyunComponent aliyunComponent;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private UserService userService;

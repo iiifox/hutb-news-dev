@@ -7,8 +7,10 @@ import cn.edu.hutb.article.service.ArticlePortalService;
 import cn.edu.hutb.enums.ArticleReviewStatus;
 import cn.edu.hutb.enums.YesOrNo;
 import cn.edu.hutb.pojo.Article;
+import cn.edu.hutb.pojo.vo.ArticleDetailVO;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -62,6 +64,16 @@ public class ArticlePortalServiceImpl implements ArticlePortalService {
     @Override
     public PageResult queryGoodArticleListOfWriter(String writerId) {
         return queryArticleListOfWriter(writerId, 1, 5);
+    }
+
+    @Override
+    public ArticleDetailVO getDetail(String articleId) {
+        Example articleExample = new Example(Article.class);
+        getDefaultArticleCriteria(articleExample).andEqualTo("id", articleId);
+
+        ArticleDetailVO detailVO = new ArticleDetailVO();
+        BeanUtils.copyProperties(articleMapper.selectOneByExample(articleExample), detailVO);
+        return detailVO;
     }
 
     private Example.Criteria getDefaultArticleCriteria(Example articleExample) {

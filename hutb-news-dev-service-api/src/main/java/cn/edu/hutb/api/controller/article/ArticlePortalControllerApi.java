@@ -2,8 +2,11 @@ package cn.edu.hutb.api.controller.article;
 
 import cn.edu.hutb.result.JSONResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 门户端文章业务接口
@@ -52,7 +55,25 @@ public interface ArticlePortalControllerApi {
      * 作家页面查询近期佳文
      *
      * @param writerId 作家id
+     * @return 分页返回
      */
     @GetMapping("/queryGoodArticleListOfWriter")
     JSONResult queryGoodArticleListOfWriter(@RequestParam String writerId);
+
+    /**
+     * 文章详情查询
+     *
+     * @param articleId 文章id
+     * @return 文章详情
+     */
+    @GetMapping("/detail")
+    JSONResult detail(@RequestParam String articleId);
+
+    /**
+     * 阅读文章，文章阅读数累加
+     *
+     * @param articleId 文章id
+     */
+    @PostMapping("/readArticle")
+    JSONResult readArticle(@RequestParam String articleId, HttpServletRequest request);
 }

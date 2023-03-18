@@ -1,6 +1,7 @@
 package cn.edu.hutb.api.config;
 
 import cn.edu.hutb.api.interceptor.AdminTokenInterceptor;
+import cn.edu.hutb.api.interceptor.ArticleReadInterceptor;
 import cn.edu.hutb.api.interceptor.UserActiveInterceptor;
 import cn.edu.hutb.api.interceptor.UserTokenInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
         return new AdminTokenInterceptor();
     }
 
+    @Bean
+    public ArticleReadInterceptor articleReadInterceptor() {
+        return new ArticleReadInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 用户登录校验拦截器
@@ -48,5 +54,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/fs/readInGridFS", "/fs/uploadToGridFS")
                 .addPathPatterns("/friendLinkMng/saveOrUpdateFriendLink", "/friendLinkMng/getFriendLinkList", "/friendLinkMng/delete")
                 .addPathPatterns("/categoryMng/saveOrUpdateCategory", "/categoryMng/getCatList");
+        // 文章阅读数防刷拦截器
+        registry.addInterceptor(articleReadInterceptor())
+                .addPathPatterns("/portal/article/readArticle");
     }
 }

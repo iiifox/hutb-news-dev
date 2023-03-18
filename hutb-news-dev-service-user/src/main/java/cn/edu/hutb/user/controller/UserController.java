@@ -13,7 +13,6 @@ import cn.edu.hutb.user.service.UserService;
 import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 import wiremock.org.apache.commons.lang3.StringUtils;
@@ -34,9 +33,6 @@ public class UserController extends BaseController
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
     @Override
     public JSONResult getAccountInfo(String userId) {
@@ -77,9 +73,8 @@ public class UserController extends BaseController
         }
 
         final List<AppUserVO> publisherList = new ArrayList<>();
-        Objects.requireNonNull(JsonUtils.jsonToList(userIds, String.class)).forEach(id -> {
-            publisherList.add(getBasicUserInfo(id));
-        });
+        Objects.requireNonNull(JsonUtils.jsonToList(userIds, String.class))
+                .forEach(id -> publisherList.add(getBasicUserInfo(id)));
         return JSONResult.ok(publisherList);
     }
 
@@ -93,22 +88,20 @@ public class UserController extends BaseController
                 .get(String.format(RedisConsts.USER_INFO_FORMATTER, userId));
         if (userJson != null) {
             return JsonUtils.jsonToPojo(userJson, AppUser.class);
-        } else {
-            AppUser user = userService.getUser(userId);
-            redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO_FORMATTER, userId),
-                    Objects.requireNonNull(JsonUtils.objectToJson(user)), 30, TimeUnit.DAYS);
-            return user;
         }
+        // Redis中不包含用户信息，则查询数据库并将其写入Redis中
+        AppUser user = userService.getUser(userId);
+        redisTemplate.opsForValue().set(String.format(RedisConsts.USER_INFO_FORMATTER, userId),
+                Objects.requireNonNull(JsonUtils.objectToJson(user)), 30, TimeUnit.DAYS);
+        return user;
     }
 
     private AppUserVO getBasicUserInfo(String userId) {
         AppUserVO userVO = new AppUserVO();
         BeanUtils.copyProperties(getUser(userId), userVO);
         // 查询 Redis 中的关注数与粉丝数，放入 userVO 到前端渲染
-        String redisFollows = redisTemplate.opsForValue().get(String.format(RedisConsts.FOLLOW_COUNT_FORMATTER, userId));
-        userVO.setMyFollowCounts((redisFollows == null) ? 0 : Integer.parseInt(redisFollows));
-        String redisFans = redisTemplate.opsForValue().get(String.format(RedisConsts.FAN_COUNT_FORMATTER, userId));
-        userVO.setMyFansCounts((redisFans == null) ? 0 : Integer.parseInt(redisFans));
+        userVO.setMyFollowCounts(getCountsFromRedis(String.format(RedisConsts.FOLLOW_COUNT_FORMATTER, userId)));
+        userVO.setMyFansCounts(getCountsFromRedis(String.format(RedisConsts.FAN_COUNT_FORMATTER, userId)));
         return userVO;
     }
 }
