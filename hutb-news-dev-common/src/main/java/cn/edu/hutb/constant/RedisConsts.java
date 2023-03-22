@@ -49,4 +49,9 @@ public class RedisConsts {
      * 文章已经阅读过（拼接文章id和ip两个参数）
      */
     public static final String ARTICLE_ALREADY_READ_FORMATTER = "article:read:%s:%s";
+
+    /**
+     * 文章评论数（拼接文章id）
+     */
+    public static final String ARTICLE_COMMENT_COUNTS_FORMATTER = "article:comment:counts:%s";
 }

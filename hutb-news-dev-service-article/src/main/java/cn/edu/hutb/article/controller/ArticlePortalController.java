@@ -12,11 +12,9 @@ import cn.edu.hutb.pojo.vo.ArticleDetailVO;
 import cn.edu.hutb.pojo.vo.IndexArticleVO;
 import cn.edu.hutb.result.JSONResult;
 import cn.edu.hutb.util.IpUtils;
-import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -35,9 +33,6 @@ public class ArticlePortalController extends BaseController
 
     @Autowired
     private ArticlePortalService articlePortalService;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Override
     public JSONResult list(String keyword, Integer category, Integer page, Integer pageSize) {
@@ -68,9 +63,7 @@ public class ArticlePortalController extends BaseController
     public JSONResult detail(String articleId) {
         ArticleDetailVO detailVO = articlePortalService.getDetail(articleId);
 
-        HashSet<String> idSet = new HashSet<>();
-        idSet.add(detailVO.getPublishUserId());
-        List<AppUserVO> publisherList = getPublisherList(idSet);
+        List<AppUserVO> publisherList = getPublisherList(detailVO.getPublishUserId());
         if (!publisherList.isEmpty()) {
             detailVO.setPublishUserName(publisherList.get(0).getNickname());
         }
@@ -104,7 +97,7 @@ public class ArticlePortalController extends BaseController
         List<String> readCountsList = redisTemplate.opsForValue().multiGet(idList);
 
         // 发起远程调用（restTemplate），请求用户服务获得用户（idSet 发布者）的列表
-        List<AppUserVO> publisherList = getPublisherList(idSet);
+        List<AppUserVO> publisherList = getPublisherList(idSet.toArray(new String[0]));
 
         // 拼接两个list，重组文章列表
         List<IndexArticleVO> indexArticleList = new ArrayList<>();
@@ -131,23 +124,6 @@ public class ArticlePortalController extends BaseController
             }
         }
         return null;
-    }
-
-    /**
-     * 发起远程调用，获得用户的基本信息
-     */
-    private List<AppUserVO> getPublisherList(Set<String> idSet) {
-        JSONResult resp = restTemplate.getForObject(
-                "http://user.hutbnews.com:8003/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet),
-                JSONResult.class);
-
-        List<AppUserVO> publisherList = null;
-        assert resp != null;
-        if (resp.getStatus() == 200) {
-            String userJson = JsonUtils.objectToJson(resp.getData());
-            publisherList = JsonUtils.jsonToList(userJson, AppUserVO.class);
-        }
-        return publisherList;
     }
 
 }

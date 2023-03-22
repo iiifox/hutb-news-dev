@@ -71,8 +71,10 @@ public class ArticlePortalServiceImpl implements ArticlePortalService {
         Example articleExample = new Example(Article.class);
         getDefaultArticleCriteria(articleExample).andEqualTo("id", articleId);
 
+        Article article = articleMapper.selectOneByExample(articleExample);
         ArticleDetailVO detailVO = new ArticleDetailVO();
-        BeanUtils.copyProperties(articleMapper.selectOneByExample(articleExample), detailVO);
+        BeanUtils.copyProperties(article, detailVO);
+        detailVO.setCover(article.getArticleCover());
         return detailVO;
     }
 

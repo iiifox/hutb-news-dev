@@ -1,10 +1,14 @@
 package cn.edu.hutb.api.controller;
 
+import cn.edu.hutb.pojo.vo.AppUserVO;
+import cn.edu.hutb.result.JSONResult;
+import cn.edu.hutb.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +31,9 @@ public class BaseController {
 
     @Autowired
     protected StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     /**
      * 获取BindingResult中的错误信息
@@ -47,6 +55,23 @@ public class BaseController {
         return Integer.valueOf(countsStr);
     }
 
+    /**
+     * 发起远程调用，获得用户的基本信息
+     */
+    protected List<AppUserVO> getPublisherList(String... ids) {
+        JSONResult resp = restTemplate.getForObject(
+                "http://user.hutbnews.com:8003/user/queryByIds?userIds=" + JsonUtils.objectToJson(ids),
+                JSONResult.class);
+
+        List<AppUserVO> publisherList = null;
+        assert resp != null;
+        if (resp.getStatus() == 200) {
+            String userJson = JsonUtils.objectToJson(resp.getData());
+            publisherList = JsonUtils.jsonToList(userJson, AppUserVO.class);
+        }
+        return publisherList;
+    }
+
     protected void setCookieSevenDays(HttpServletResponse response, String cookieName, String cookieValue) {
         setCookie(response, cookieName, cookieValue, 7 * 24 * 60 * 60);
     }
@@ -60,7 +85,7 @@ public class BaseController {
      */
     private void setCookie(HttpServletResponse response, String cookieName, String cookieValue, int maxAge) {
         try {
-            cookieValue  = URLEncoder.encode(cookieValue, StandardCharsets.UTF_8.name());
+            cookieValue = URLEncoder.encode(cookieValue, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

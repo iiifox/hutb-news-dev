@@ -29,6 +29,7 @@
 
         <!-- 数据库表 -->
         <table tableName="article"/>
+        <table tableName="comments"/>
 
     </context>
 </generatorConfiguration>
