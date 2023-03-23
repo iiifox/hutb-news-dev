@@ -4,9 +4,10 @@
 
     <select id="listArticleComment" resultType="cn.edu.hutb.pojo.vo.CommentsVO">
         SELECT c.id                    AS commentId,
-               c.father_id            AS fatherId,
+               c.father_id             AS fatherId,
                c.comment_user_id       AS commentUserId,
                c.comment_user_nickname AS commentUserNickname,
+               c.comment_user_face     AS commentUserFace,
                c.article_id            AS articleId,
                c.content               AS content,
                c.create_time           AS createTime,

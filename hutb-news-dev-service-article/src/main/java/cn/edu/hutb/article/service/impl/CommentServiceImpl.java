@@ -80,4 +80,20 @@ public class CommentServiceImpl implements CommentService {
         PageHelper.startPage(page, pageSize);
         return PageUtils.setterPage(commentsMapperCustom.listArticleComment(map), page);
     }
+
+    @Override
+    public PageResult listWriterComment(String writerId, int page, int pageSize) {
+        Comments comment = new Comments();
+        comment.setWriterId(writerId);
+        PageHelper.startPage(page, pageSize);
+        return PageUtils.setterPage(commentsMapper.select(comment), page);
+    }
+
+    @Override
+    public void deleteComment(String writerId, String commentId) {
+        Comments comment = new Comments();
+        comment.setId(commentId);
+        comment.setWriterId(writerId);
+        commentsMapper.delete(comment);
+    }
 }

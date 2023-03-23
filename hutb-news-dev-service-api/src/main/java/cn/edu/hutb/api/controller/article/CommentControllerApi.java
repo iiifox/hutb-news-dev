@@ -41,4 +41,27 @@ public interface CommentControllerApi {
     JSONResult list(@RequestParam String articleId,
                     @RequestParam Integer page,
                     @RequestParam Integer pageSize);
+
+    /**
+     * 查询我的评论管理列表
+     *
+     * @param writerId 作家id
+     * @param page     展示的第几页
+     * @param pageSize 每页数据条数
+     * @return 分页返回
+     */
+    @PostMapping("/mng")
+    JSONResult mng(@RequestParam String writerId,
+                   @RequestParam Integer page,
+                   @RequestParam Integer pageSize);
+
+    /**
+     * 作者删除评论
+     *
+     * @param writerId  作家id
+     * @param commentId 评论id
+     */
+    @PostMapping("/delete")
+    JSONResult delete(@RequestParam String writerId, @RequestParam String commentId);
 }
+

@@ -21,4 +21,14 @@ public interface CommentService {
      * @param articleId 文章id
      */
     PageResult listArticleComment(String articleId, int page, int pageSize);
+
+    /**
+     * 查询我的评论管理列表
+     */
+    PageResult listWriterComment(String writerId, int page, int pageSize);
+
+    /**
+     * 删除评论
+     */
+    void deleteComment(String writerId, String commentId);
 }

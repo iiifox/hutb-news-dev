@@ -54,4 +54,17 @@ public class CommentController extends BaseController
                 (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
                 (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
     }
+
+    @Override
+    public JSONResult mng(String writerId, Integer page, Integer pageSize) {
+        return JSONResult.ok(commentService.listWriterComment(writerId,
+                (page == null) ? PageConsts.DEFAULT_PAGE_NUM : page,
+                (pageSize == null) ? PageConsts.DEFAULT_PAGE_SIZE : pageSize));
+    }
+
+    @Override
+    public JSONResult delete(String writerId, String commentId) {
+        commentService.deleteComment(writerId, commentId);
+        return JSONResult.ok();
+    }
 }
